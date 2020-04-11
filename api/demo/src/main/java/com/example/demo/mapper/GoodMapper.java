@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.Good;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * 货物仓库，对应 GoodMapper.xml
  */
 @Mapper
+@Repository
 public interface GoodMapper {
 
     /**
@@ -22,6 +24,8 @@ public interface GoodMapper {
      * 新增
      */
     void save(String name, String description, Long unitId);
+
+    void updateStock(Integer stock, Long id);
 
     /**
      * 删除

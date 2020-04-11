@@ -1,0 +1,4 @@
+<select [compareWith]="comparedWithId" class="form-control" [(ngModel)]="good" (change)="change(good)">
+  <option [ngValue]="null" >请选择货物...</option>
+  <option *ngFor="let _good of goods" [ngValue]="_good">{{_good.name}}</option>
+</select>

@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.ExtendedField;
-import com.example.demo.entity.InOut;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import java.util.List;
  * 扩展字段仓库，对应 ExtendedFieldMapper.xml
  */
 @Mapper
+@Repository
 public interface ExtendedFieldMapper {
     /**
      * 新增

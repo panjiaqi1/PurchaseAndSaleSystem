@@ -5,11 +5,13 @@ import com.example.demo.entity.Unit;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 单位库仓库，对应 UnitMapper.xml
  */
 @Mapper
+@Repository
 public interface UnitMapper {
 
     /**

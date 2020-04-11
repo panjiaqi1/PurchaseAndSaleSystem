@@ -39,6 +39,12 @@
         values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{unitId,jdbcType=INTEGER})
     </insert>
 
+    <update id="updateStock" parameterType="com.example.demo.entity.Good">
+        update good set
+        stock = #{stock,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
     <delete id="delete" parameterType="java.lang.Long">
         delete from good where id= #{id,jdbcType=INTEGER}
     </delete>

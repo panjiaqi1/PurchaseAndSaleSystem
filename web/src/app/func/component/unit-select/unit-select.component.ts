@@ -1,8 +1,7 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Utils } from '../../../core/utils';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Unit } from '../../../common/unit';
 import { UnitService } from '../../../core/service/unit.service';
+import { Unit } from '../../../common/unit';
 
 /**
  * 单位选择组件

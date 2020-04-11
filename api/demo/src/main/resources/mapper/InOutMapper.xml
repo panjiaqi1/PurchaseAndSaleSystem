@@ -4,17 +4,21 @@
 
     <resultMap id="inOutResultMap" type="com.example.demo.entity.InOut">
         <id property="id" column="id"/>
-        <result property="amount" column="number"/>
+        <result property="amount" column="amount"/>
         <result property="inputOrOutput" column="inputOrOutput"/>
-        <result property="createTime" column="modify_time"/>
+        <result property="createTime" column="create_time"/>
         <association property="good" javaType="Good">
-            <id property="id" column="p_id"/>
+            <id property="id" column="g_id"/>
             <result property="name" column="p_name"/>
+        </association>
+        <association property="user" javaType="User">
+            <id property="id" column="u_id"/>
+            <result property="name" column="u_name"/>
         </association>
     </resultMap>
     <select id="findAllByGoodId" resultMap="inOutResultMap">
     SELECT in_out.number,
-        in_out.modify_time,
+        in_out.create_time,
         in_out.id,
         in_out.input_or_output AS inputOrOutput
     FROM in_out LEFT OUTER JOIN product ON in_out.good_id = good.id
@@ -22,4 +26,18 @@
 
     </select>
 
+    <select id="findAllByIn" resultMap="inOutResultMap">
+    SELECT in_out.id,
+        in_out.amount,
+        in_out.create_time,
+        in_out.good_id as g_id,
+        in_out.user_id as u_id
+    FROM in_out  WHERE in_out.input_or_output = 1;
+
+    </select>
+
+    <insert id="inGoodSave" parameterType="com.example.demo.entity.InOut">
+        insert into in_out (amount, input_or_output, create_time, good_id, user_id)
+        values (#{amount,jdbcType=INTEGER},#{inputOrOutput,jdbcType=INTEGER},#{createTime,jdbcType=INTEGER},#{goodId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER})
+    </insert>
 </mapper>

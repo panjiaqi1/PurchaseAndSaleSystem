@@ -1,31 +1,4 @@
-<!--<form [formGroup]="queryForm" (ngSubmit)="reload()">-->
-  <!--<div class="row">-->
-    <!--<div class="col-md-4">-->
-      <!--<div class="row">-->
-        <!--<div class="col-md-4 text-right">-->
-          <!--<label for="articleState" class="form-text">标签名称：</label>-->
-        <!--</div>-->
-        <!--<div class="col-md-8">-->
-          <!--<input type="text" class="form-control" id="articleState"-->
-                 <!--placeholder="请输入标签名称" formControlName="name"/>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-md-4">-->
-      <!--<div class="row">-->
-        <!--<div class="col-md-8 offset-md-4">-->
-          <!--<button class="btn btn-primary btn-sm" type="submit">-->
-            <!--<i class="fas fa-search"></i>-->
-            <!--查询-->
-          <!--</button>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</form>-->
-
-
-<div class="row">
+<div class="row" style="margin-top: 60px">
   <div class="col-md-2 offset-md-10">
     <button class="btn btn-primary btn-sm" routerLink="add">
       <i class="fas fa-plus"></i>
@@ -47,19 +20,19 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let inputProduct of inputProducts, index as i">
+  <tr *ngFor="let inputGood of inOuts, index as i">
     <td>{{i + 1}}</td>
-    <td>白面</td>
-    <td>{{inputProduct.number}}</td>
-    <td>袋</td>
-    <td>{{inputProduct.createTime}}</td>
-    <td>张三</td>
+    <td>{{inputGood.good.name}}</td>
+    <td>{{inputGood.amount}}</td>
+    <td>{{inputGood.good.unit.name}}</td>
+    <td>{{inputGood.createTime |  date:"yyyy/MM/dd hh:mm:ss"}}</td>
+    <td>{{inputGood?.user?.username}}</td>
     <td>
-      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{inputProduct.id}}">
+      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{inputGood.id}}">
         <i class="fas fa-edit"></i>
         编辑
       </button>
-      <button (click)="delete(inputProduct)" class="btn btn-danger btn-sm mr-2">
+      <button (click)="delete(inputGood)" class="btn btn-danger btn-sm mr-2">
         <i class="fas fa-trash-alt"></i>
         删除
       </button>

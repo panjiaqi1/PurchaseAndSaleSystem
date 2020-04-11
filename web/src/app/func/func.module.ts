@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UnitSelectComponent } from './component/unit-select/unit-select.component';
+import { GoodSelectComponent } from './component/good-select/good-select.component';
 
 @NgModule({
   declarations: [
-    UnitSelectComponent
+    UnitSelectComponent,
+    GoodSelectComponent
   ],
   imports: [
     CommonModule,
@@ -13,7 +15,8 @@ import { UnitSelectComponent } from './component/unit-select/unit-select.compone
     FormsModule,
   ],
   exports: [
-    UnitSelectComponent
+    UnitSelectComponent,
+    GoodSelectComponent
   ]
 })
 export class FuncModule {
