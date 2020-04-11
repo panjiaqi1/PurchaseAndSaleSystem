@@ -27,8 +27,6 @@ class ProductMapperTest {
     @Test
     public void findAll() {
         List<Good> products = this.productMapper.findAll();
-        products = this.productRepository.findAll();
-        this.productRepository.findById(1L);
 
     }
 

@@ -21,7 +21,7 @@ public interface GoodMapper {
     /**
      * 新增
      */
-    void save(String name, String description, Long companyId);
+    void save(String name, String description, Long unitId);
 
     /**
      * 删除

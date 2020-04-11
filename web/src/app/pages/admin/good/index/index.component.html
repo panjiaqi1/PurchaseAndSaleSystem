@@ -1,28 +1,28 @@
-<form [formGroup]="queryForm">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="row">
-        <div class="col-md-4 text-right">
-          <label for="articleState" class="form-text">名称：</label>
-        </div>
-        <div class="col-md-8">
-          <input type="text" class="form-control" id="articleState"
-                 placeholder="请输入货物名称" formControlName="name"/>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="row">
-        <div class="col-md-8 offset-md-4">
-          <button class="btn btn-primary btn-sm" type="submit">
-            <i class="fas fa-search"></i>
-            查询
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
+<!--<form [formGroup]="queryForm" style="margin-top: 60px">-->
+  <!--<div class="row">-->
+    <!--<div class="col-md-4">-->
+      <!--<div class="row">-->
+        <!--<div class="col-md-4 text-right">-->
+          <!--<label for="articleState" class="form-text">名称：</label>-->
+        <!--</div>-->
+        <!--<div class="col-md-8">-->
+          <!--<input type="text" class="form-control" id="articleState"-->
+                 <!--placeholder="请输入货物名称" formControlName="name"/>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+      <!--<div class="row">-->
+        <!--<div class="col-md-8 offset-md-4">-->
+          <!--<button class="btn btn-primary btn-sm" type="submit">-->
+            <!--<i class="fas fa-search"></i>-->
+            <!--查询-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</form>-->
 
 
 <div class="row">
@@ -47,19 +47,19 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let tag of tags, index as i">
+  <tr *ngFor="let good of goods, index as i">
     <td>{{i + 1}}</td>
-    <td>{{tag.name}}</td>
-    <td>袋</td>
-    <td>{{tag.description}}</td>
-    <td>{{tag.stock}}</td>
+    <td>{{good.name}}</td>
+    <td>{{good.unit.name}}</td>
+    <td>{{good.description}}</td>
+    <td>{{good.stock}}</td>
     <td></td>
     <td>
-      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{tag.id}}">
+      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{good.id}}">
         <i class="fas fa-edit"></i>
         编辑
       </button>
-      <button (click)="delete(tag)"  class="btn btn-danger btn-sm mr-2">
+      <button (click)="delete(good)"  class="btn btn-danger btn-sm mr-2">
         <i class="fas fa-trash-alt"></i>
         删除
       </button>

@@ -46,7 +46,7 @@ export class UnitService {
   }
 
   /**
-   * 获取所有的类别
+   * 获取所有单位
    */
   public getAll(): Observable<Array<Unit>> {
     return this.httpClient.get<Array<Unit>>(this.baseUrl);
