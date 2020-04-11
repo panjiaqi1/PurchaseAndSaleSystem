@@ -1,23 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategorySelectComponent } from './category-select.component';
+import { UnitSelectComponent } from './unit-select.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestModule } from '../../../../../e2e/src/test/test.module';
 
 describe('CategorySelectComponent', () => {
-  let component: CategorySelectComponent;
-  let fixture: ComponentFixture<CategorySelectComponent>;
+  let component: UnitSelectComponent;
+  let fixture: ComponentFixture<UnitSelectComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CategorySelectComponent ],
+      declarations: [ UnitSelectComponent ],
       imports: [ReactiveFormsModule, TestModule]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CategorySelectComponent);
+    fixture = TestBed.createComponent(UnitSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

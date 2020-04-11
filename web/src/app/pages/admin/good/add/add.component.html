@@ -1,25 +1,61 @@
-<form [formGroup]="tagForm" (ngSubmit)="submit()">
+<form [formGroup]="goodForm" (ngSubmit)="submit()" style="margin-top: 60px">
   <div class="row">
     <div class="col-md-6 offset-md-1">
       <div class="row">
         <div class="col-md-4 text-right">
-          <label for="tag" class="form-text">标签名称<code>*</code></label>
+          <label for="name" class="form-text">货物名称<code>*</code></label>
         </div>
         <div class="col-md-8">
-          <input type="text" class="form-control" id="tag" placeholder="请输入标签名称" formControlName="name" />
+          <input type="text" class="form-control" id="name" placeholder="请输入货物名称" formControlName="name"/>
         </div>
       </div>
       <div class="row mt-2" *ngIf="name.invalid && (name.dirty || name.touched)">
         <div class="col-md-8 offset-md-4">
           <small class="text-danger" *ngIf="name.errors.required">
             <i class="fa fa-exclamation-triangle"></i>
-            标签名必须
+            货物名称必须
           </small>
+        </div>
+      </div>
+      <br/>
+      <div class="row">
+        <div class="col-md-4 text-right">
+          <label for="description" class="form-text">描述<code>*</code></label>
+        </div>
+        <div class="col-md-8">
+          <textarea id="description" class="form-control" rows="4" formControlName="description" placeholder="请输入描述"></textarea>
+        </div>
+      </div>
+      <div class="row mt-2" *ngIf="description.invalid && (description.dirty || description.touched)">
+        <div class="col-md-8 offset-md-4">
+          <small class="text-danger" *ngIf="description.errors.required">
+            <i class="fa fa-exclamation-triangle"></i>
+            描述必须
+          </small>
+        </div>
+      </div>
+      <br/>
+      <div class="row">
+        <div class="col-md-4 text-right">
+          <label class="form-text">单位</label>
+        </div>
+        <div class="col-md-8">
+          <app-unit-select (unitSelect)="bindUnit($event)"></app-unit-select>
+        </div>
+      </div>
+      <br/>
+
+      <div class="row">
+        <div class="col-md-4 text-right">
+          <label class="form-text">扩充字段</label>
+        </div>
+        <div class="col-md-8">
+          <!--<app-unit-select (unitSelect)="bindUnit($event)"></app-unit-select>-->
         </div>
       </div>
       <div class="row mt-5">
         <div class="col-md-8 offset-md-4">
-          <button class="btn btn-dark btn-sm" [disabled]="tagForm.invalid" type="submit">
+          <button class="btn btn-dark btn-sm" [disabled]="goodForm.invalid" type="submit">
             <i class="far fa-save"></i>
             &nbsp;保存
           </button>

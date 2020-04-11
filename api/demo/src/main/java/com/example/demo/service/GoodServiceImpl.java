@@ -19,22 +19,18 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public void add(Good product) {
-
-        goodMapper.save(product.getName(), product.getDescription(), product.getUnit().getId());
+    public void save(Good good) {
+        goodMapper.save(good.getName(), good.getDescription(), good.getUnit().getId());
     }
 
     @Override
     public List<Good> findAll() {
-        return null;
-//        List<Product> productList = goodMapper.findAll();
-//        for (Product product : productList) {
-////            product.setInOutLibraryList(this.inOutMapper.findAllByProductId(product.getId()));
-//        }
+        List<Good> goodList = goodMapper.findAll();
+        return goodList;
     }
 
     @Override
-    public void update(Good product) {
+    public void update(Long id, Good good) {
 
     }
 
@@ -47,6 +43,6 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public void delete(Long id) {
-
+        goodMapper.delete(id);
     }
 }

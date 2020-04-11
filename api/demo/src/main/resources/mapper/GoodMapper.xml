@@ -31,12 +31,12 @@
             good.stock,
             good.unit_id AS c_id,
             unit.`name` AS c_name
-        FROM good LEFT OUTER JOIN unit ON product.unit_id = unit.id;
+        FROM good LEFT OUTER JOIN unit ON good.unit_id = unit.id;
     </select>
 
     <insert id="save" parameterType="com.example.demo.entity.Good">
-        insert into good (name, description, company_id)
-        values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{companyId,jdbcType=INTEGER})
+        insert into good (name, description, unit_id)
+        values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{unitId,jdbcType=INTEGER})
     </insert>
 
     <delete id="delete" parameterType="java.lang.Long">

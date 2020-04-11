@@ -23,7 +23,7 @@ public class UnitController {
      * 新增单位
      */
     @PostMapping
-    public void addCompany(@RequestBody Unit unit) {
+    public void save(@RequestBody Unit unit) {
         unitService.add(unit);
     }
 

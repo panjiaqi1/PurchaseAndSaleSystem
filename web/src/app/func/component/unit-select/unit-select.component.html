@@ -1,0 +1,4 @@
+<select [compareWith]="comparedWithId" class="form-control" [(ngModel)]="unit" (change)="change(unit)">
+  <option [ngValue]="null" >请选择单位...</option>
+  <option *ngFor="let _unit of units" [ngValue]="_unit">{{_unit.name}}</option>
+</select>

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Unit } from '../../../../common/unit';
+import { AppComponent } from '../../../../app.component';
+import { UnitService } from '../../../../core/service/unit.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Good } from '../../../../common/good';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { GoodService } from '../../../../core/service/good.service';
 
 @Component({
   selector: 'app-index',
@@ -8,24 +12,39 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./index.component.less']
 })
 export class IndexComponent implements OnInit {
-  queryForm: FormGroup;
-  tags: Array<Good> = [
-    {id: 1, name: '方便面', description: '123', stock: 10, unit: null, inOutList: null, extendedFieldList: null},
-    {id: 1, name: '啤酒', description: '123', stock: 10, unit: null, inOutList: null, extendedFieldList: null},
-    {id: 1, name: '大米', description: '123', stock: 10, unit: null, inOutList: null, extendedFieldList: null},
-  ];
 
+  goods: Array<Good>;
 
-  constructor(private builder: FormBuilder) {
+  constructor(private appComponent: AppComponent,
+              private goodService: GoodService) {
   }
 
   ngOnInit() {
-    this.queryForm = this.builder.group({
-      name: null
-    });
+    this.getAll();
   }
 
-  delete(tag: any) {
-    console.log(tag);
+  public getAll() {
+    this.goodService.getAll()
+      .subscribe((data: Array<Good>) => {
+        this.goods = data;
+      }, () => {
+        console.log('error');
+      });
+  }
+
+  delete(good: Good) {
+    // 确认框
+    this.appComponent.confirm(() => {
+      this.goodService.deleteById(good.id).subscribe(() => {
+        this.getAll();
+        // 操作成功提示
+        this.appComponent.success(() => {
+        }, '删除成功');
+      }, (res: HttpErrorResponse) => {
+        // 操作失败提示
+        this.appComponent.error(() => {
+        }, `删除失败:${res.error.message}`);
+      });
+    }, '即将删除');
   }
 }
