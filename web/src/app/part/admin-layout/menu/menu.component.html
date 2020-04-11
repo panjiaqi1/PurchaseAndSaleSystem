@@ -1,0 +1,10 @@
+<ul class="menu">
+    <li *ngFor="let menu of menus" class="border-bottom">
+        <a [routerLink]="menu.url">
+            <div class="inner" routerLinkActive="active">
+                <i [className]="menu.icon"></i>&nbsp;
+                <span>{{ menu.name }}</span>
+            </div>
+        </a>
+    </li>
+</ul>

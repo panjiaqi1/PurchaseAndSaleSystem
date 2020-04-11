@@ -1,0 +1,73 @@
+<form [formGroup]="categoryFrom" (ngSubmit)="submit()">
+    <div class="row">
+        <div class="col-md-6 offset-md-1">
+            <div class="row">
+                <div class="col-md-4 text-right">
+                    <label for="category" class="form-text">一级类别名称<code>*</code></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="category" placeholder="请输入类别名称" formControlName="name"/>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="name.invalid && (name.dirty || name.touched)">
+                <div class="col-md-8 offset-md-4">
+                    <small class="text-danger" *ngIf="name.errors.required">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        类别名必须
+                    </small>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4 text-right">
+                    <label for="weight" class="form-text">权重<code>*</code></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="number" class="form-control" id="weight" placeholder="请输入权重" formControlName="weight"/>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="weight.invalid && (weight.dirty || weight.touched)">
+                <div class="col-md-8 offset-md-4">
+                    <small class="text-danger" *ngIf="weight.errors.required">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        权重必须
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4 text-right">
+                    <label for="slug" class="form-text">别名(URL中使用的别称)<code>*</code></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="slug" placeholder="请输入别名" formControlName="slug"/>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="slug.invalid && (slug.dirty || slug.touched)">
+                <div class="col-md-8 offset-md-4">
+                    <small class="text-danger" *ngIf="slug.errors.required">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        别名必须
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4 text-right">
+                    <label for="slug" class="form-text">父标签</label>
+                </div>
+                <div class="col-md-8">
+                </div>
+            </div>
+
+
+            <div class="row mt-5">
+                <div class="col-md-8 offset-md-4">
+                    <button class="btn btn-dark btn-sm" [disabled]="categoryFrom.invalid" type="submit">
+                        <i class="far fa-save"></i>
+                        &nbsp;保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

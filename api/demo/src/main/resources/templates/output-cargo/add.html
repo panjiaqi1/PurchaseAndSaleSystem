@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/headTag :: headTag"></head>
+
+<body>
+<div class="container">
+    <div th:include="fragments/bodyHeader" th:remove="tag"></div>
+
+    <form th:action="@{/addProduct}" method="post">
+        <p>产品名称:  <input type="text" id="name" name="name"/></p>
+        <p>单位:
+            <select class="form-control">
+                <option [ngValue]="null" >请选择单位...</option>
+                <option th:each="company : ${companyList}" th:text="${company.name}"></option>
+            </select>
+        </p>
+        <p>描述: <input type="text" id="description" name="description"/></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+
+    <div th:include="fragments/footer"></div>
+</div>
+</body>
+</html>

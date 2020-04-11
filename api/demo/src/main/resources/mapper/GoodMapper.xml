@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.GoodMapper">
+
+    <resultMap id="goodResultMap" type="com.example.demo.entity.Good">
+        <id property="id" column="p_id"/>
+        <result property="name" column="name1"/>
+        <result property="description" column="description"/>
+        <result property="stock" column="stock"/>
+        <association property="unit" javaType="Unit">
+            <id property="id" column="c_id"/>
+            <result property="name" column="c_name"/>
+        </association>
+    </resultMap>
+
+    <select id="findById" resultMap="goodResultMap">
+        SELECT good.id AS p_id,
+            good.description,
+            good.`name` AS name1,
+            good.stock,
+            good.unit_id AS c_id,
+            unit.`name` AS c_name
+        FROM good LEFT OUTER JOIN unit ON good.unit_id = unit.id
+        WHERE good.id = #{id,jdbcType=INTEGER};
+    </select>
+
+    <select id="findAll" resultMap="goodResultMap">
+        SELECT good.id AS p_id,
+            good.description,
+            good.`name` AS name1,
+            good.stock,
+            good.unit_id AS c_id,
+            unit.`name` AS c_name
+        FROM good LEFT OUTER JOIN unit ON product.unit_id = unit.id;
+    </select>
+
+    <insert id="save" parameterType="com.example.demo.entity.Good">
+        insert into good (name, description, company_id)
+        values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{companyId,jdbcType=INTEGER})
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from good where id= #{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <update id="update" parameterType="com.example.demo.entity.Good">
+        update good set
+        name = #{name,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        unit_id = #{unit_id,jdbcType=VARCHAR}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,64 @@
+<form [formGroup]="userFrom" (ngSubmit)="submit()">
+  <div class="row">
+    <div class="col-md-6 offset-md-1">
+      <div class="row">
+        <div class="col-md-4 text-right">
+          <label for="username" class="form-text">用户名<code>*</code></label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="username" placeholder="请输入用户名" formControlName="username"/>
+        </div>
+      </div>
+      <div class="row mt-2" *ngIf="username.invalid && (username.dirty || username.touched)">
+        <div class="col-md-8 offset-md-4">
+          <small class="text-danger" *ngIf="username.errors.required">
+            <i class="fa fa-exclamation-triangle"></i>
+            用户名必须
+          </small>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4 text-right">
+          <label for="password" class="form-text">密码<code>*</code></label>
+        </div>
+        <div class="col-md-8">
+          <input type="password" class="form-control" id="password" placeholder="请输入密码" formControlName="password"/>
+        </div>
+      </div>
+      <div class="row mt-2" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <div class="col-md-8 offset-md-4">
+          <small class="text-danger" *ngIf="password.errors.required">
+            <i class="fa fa-exclamation-triangle"></i>
+            密码必须
+          </small>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-4 text-right">
+          <label for="email" class="form-text">邮箱<code>*</code></label>
+        </div>
+        <div class="col-md-8">
+          <input type="email" class="form-control" id="email" placeholder="请输入邮箱" formControlName="email"/>
+        </div>
+      </div>
+      <div class="row mt-2" *ngIf="email.invalid && (email.dirty || email.touched)">
+        <div class="col-md-8 offset-md-4">
+          <small class="text-danger" *ngIf="email.errors.required">
+            <i class="fa fa-exclamation-triangle"></i>
+            邮箱必须
+          </small>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-8 offset-md-4">
+          <button class="btn btn-dark btn-sm" [disabled]="userFrom.invalid" type="submit">
+            <i class="far fa-save"></i>
+            &nbsp;保存
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/headTag :: headTag"></head>
+
+<body>
+<div class="container">
+    <div th:include="fragments/bodyHeader" th:remove="tag"></div>
+
+    <form th:action="@{/update}" th:object="${company}" method="post">
+        <input type="hidden" name="id" th:value="*{id}">
+        <p>单位名称:  <input type="text" id="name" name="name" th:value="*{name}"/></p>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+
+    <div th:include="fragments/footer"></div>
+</div>
+</body>
+</html>

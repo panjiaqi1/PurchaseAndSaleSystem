@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-md-2 offset-md-10">
+    <button class="btn btn-primary btn-sm" routerLink="add">
+      <i class="fas fa-plus"></i>
+      新增
+    </button>
+  </div>
+</div>
+
+<table class="table table-striped table-bordered mt-3">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">序号</th>
+    <th scope="col">名称</th>
+    <th scope="col">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let company of companies, index as i">
+    <td>{{i + 1}}</td>
+    <td>{{company.name}}</td>
+    <td>
+      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{company.id}}">
+        <i class="fas fa-edit"></i>
+        编辑
+      </button>
+      <button (click)="delete(company)"  class="btn btn-danger btn-sm mr-2">
+        <i class="fas fa-trash-alt"></i>
+        删除
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

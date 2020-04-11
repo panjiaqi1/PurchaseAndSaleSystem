@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.InOutMapper">
+
+    <resultMap id="inOutResultMap" type="com.example.demo.entity.InOut">
+        <id property="id" column="id"/>
+        <result property="amount" column="number"/>
+        <result property="inputOrOutput" column="inputOrOutput"/>
+        <result property="createTime" column="modify_time"/>
+        <association property="good" javaType="Good">
+            <id property="id" column="p_id"/>
+            <result property="name" column="p_name"/>
+        </association>
+    </resultMap>
+    <select id="findAllByGoodId" resultMap="inOutResultMap">
+    SELECT in_out.number,
+        in_out.modify_time,
+        in_out.id,
+        in_out.input_or_output AS inputOrOutput
+    FROM in_out LEFT OUTER JOIN product ON in_out.good_id = good.id
+    WHERE in_out.good_id = #{id,jdbcType=INTEGER};
+
+    </select>
+
+</mapper>

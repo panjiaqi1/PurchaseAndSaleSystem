@@ -1,0 +1,4 @@
+<select id="tagSelect" [compareWith]="comparedWithId" class="form-control" [formControl]="control">
+    <option [ngValue]="null">无类别</option>
+    <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+</select>
