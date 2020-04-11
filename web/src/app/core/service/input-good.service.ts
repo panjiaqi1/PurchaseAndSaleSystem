@@ -29,4 +29,15 @@ export class InputGoodService {
     return this.httpClient.get<Array<InOut>>(this.baseUrl);
   }
 
+  /**
+   * 通过货物获取所有进货记录
+   */
+  public findAllByGoodId(goodId: number): Observable<Array<InOut>> {
+    const params: { [key: string]: any } = {};
+    if (goodId) {
+      params.goodId = goodId;
+    }
+
+    return this.httpClient.get<Array<InOut>>(`${this.baseUrl}/query`, {params});
+  }
 }
