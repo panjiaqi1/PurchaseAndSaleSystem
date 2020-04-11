@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class UnitServiceImpl implements UnitService {
 
-
     private final UnitMapper unitMapper;
 
     public UnitServiceImpl(UnitMapper unitMapper) {
@@ -28,8 +27,8 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public void update(Unit unit) {
-        unitMapper.update(unit);
+    public void update(Long id, Unit unit) {
+        unitMapper.update(unit.getName(), id);
     }
 
     @Override

@@ -13,14 +13,14 @@ const routes: Routes = [
         loadChildren: () => import('../../pages/admin/index/index.module').then(m => m.IndexModule)
       },
       {
-        path: 'inputCargo',
+        path: 'inputGood',
         loadChildren: () => import('../../pages/admin/input-good/input-good.module').then(m => m.InputGoodModule),
         data: {
           title: '进货管理'
         }
       },
       {
-        path: 'product',
+        path: 'good',
         loadChildren: () => import('../../pages/admin/good/good.module').then(m => m.GoodModule),
         data: {
           title: '货物管理'

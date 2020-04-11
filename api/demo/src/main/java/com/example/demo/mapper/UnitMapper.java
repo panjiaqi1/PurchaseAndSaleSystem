@@ -15,16 +15,16 @@ public interface UnitMapper {
     /**
      * 获取所有
      *
-     * @return List<Company>
+     * @return List<Unit>
      */
     List<Unit> findAll();
 
     /**
      * 新增
      *
-     * @param company 单位
+     * @param unit 单位
      */
-    void add(Unit company);
+    void add(Unit unit);
 
     /**
      * 删除
@@ -35,16 +35,14 @@ public interface UnitMapper {
 
     /**
      * 编辑
-     *
-     * @param company 单位
      */
-    void update(Unit company);
+    void update(String name, Long id);
 
     /**
      * 通过Id查询
      *
      * @param id 单位Id
-     * @return Company
+     * @return Unit
      */
     Unit findById(Long id);
 }

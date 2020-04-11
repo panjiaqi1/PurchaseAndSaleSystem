@@ -1,4 +1,4 @@
-<div class="row">
+<div style="margin-top: 60px" class="row">
   <div class="col-md-2 offset-md-10">
     <button class="btn btn-primary btn-sm" routerLink="add">
       <i class="fas fa-plus"></i>
@@ -16,15 +16,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let company of companies, index as i">
+  <tr *ngFor="let unit of units, index as i">
     <td>{{i + 1}}</td>
-    <td>{{company.name}}</td>
+    <td>{{unit.name}}</td>
     <td>
-      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{company.id}}">
+      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{unit.id}}">
         <i class="fas fa-edit"></i>
         编辑
       </button>
-      <button (click)="delete(company)"  class="btn btn-danger btn-sm mr-2">
+      <button (click)="delete(unit)"  class="btn btn-danger btn-sm mr-2">
         <i class="fas fa-trash-alt"></i>
         删除
       </button>

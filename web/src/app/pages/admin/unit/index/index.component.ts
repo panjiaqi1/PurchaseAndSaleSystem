@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Good } from '../../../../common/good';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Unit } from '../../../../common/unit';
+import { AppComponent } from '../../../../app.component';
+import { UnitService } from '../../../../core/service/unit.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-index',
@@ -9,25 +12,39 @@ import { Unit } from '../../../../common/unit';
   styleUrls: ['./index.component.less']
 })
 export class IndexComponent implements OnInit {
-  queryForm: FormGroup;
-  companies: Array<Unit> = [
-    {id: 1, name: '千克'},
-    {id: 2, name: '吨'},
-    {id: 3, name: '克'},
-    {id: 4, name: '桶'},
-  ];
 
+  units: Array<Unit>;
 
-  constructor(private builder: FormBuilder,) {
+  constructor(private appComponent: AppComponent,
+              private unitService: UnitService) {
   }
 
   ngOnInit() {
-    this.queryForm = this.builder.group({
-      name: null
-    });
+    this.getAll();
   }
 
-  delete(tag: any) {
-    console.log(tag);
+  public getAll() {
+    this.unitService.getAll()
+      .subscribe((data: Array<Unit>) => {
+        this.units = data;
+      }, () => {
+        console.log('error');
+      });
+  }
+
+  delete(unit: Unit) {
+    // 确认框
+    this.appComponent.confirm(() => {
+      this.unitService.deleteById(unit.id).subscribe(() => {
+        this.getAll();
+        // 操作成功提示
+        this.appComponent.success(() => {
+        }, '删除成功');
+      }, (res: HttpErrorResponse) => {
+        // 操作失败提示
+        this.appComponent.error(() => {
+        }, `删除失败:${res.error.message}`);
+      });
+    }, '即将删除单位');
   }
 }
