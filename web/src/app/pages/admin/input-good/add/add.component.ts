@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from '../../../../app.component';
 import { Router } from '@angular/router';
+import { Unit } from '../../../../common/unit';
+import { UnitService } from '../../../../core/service/unit.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { InOut } from '../../../../common/in-out';
+import { InputGoodService } from '../../../../core/service/input-good.service';
+import { Good } from '../../../../common/good';
+import { User } from '../../../../common/user';
 
 @Component({
   selector: 'app-add',
@@ -10,47 +17,47 @@ import { Router } from '@angular/router';
 })
 export class AddComponent implements OnInit {
 
-  categoryFrom: FormGroup;  // 类别表单组
+  inOutForm: FormGroup;
 
   constructor(private builder: FormBuilder,
+              private inputGoodService: InputGoodService,
               private appComponent: AppComponent,
               private router: Router) {
   }
 
+  /** https://angular.cn/guide/form-validation#built-in-validators */
+  get amount(): AbstractControl {
+    return this.inOutForm.get('amount');
+  }
+
   ngOnInit() {
-    this.categoryFrom = this.builder.group({
-      name: ['', [Validators.required]],
-      weight: ['', [Validators.required]],
-      slug: ['', Validators.required],
-      parentCategory: [null]
+    this.inOutForm = this.builder.group({
+      amount: ['', [Validators.required]],
+      inputOrOutput: 1,
+      good: null,
+      user: new User()
     }, {updateOn: 'blur'});
   }
 
-  /**
-   * 保存类别
-   */
+  public saveUnit(inOut: InOut) {
+    this.inputGoodService.save(inOut)
+      .subscribe(() => {
+        this.appComponent.success(() => {
+          this.router.navigateByUrl('/inputGood');
+        }, '新增成功');
+      }, (res: HttpErrorResponse) => {
+        this.appComponent.error(() => {
+        }, `新增失败:${res.error.message}`);
+      });
+  }
+
   submit() {
-    // this.categoryService.save(this.categoryFrom.value)
-    //   .subscribe(() => {
-    //     this.appComponent.success(() => {
-    //       this.router.navigateByUrl('/admin/category');
-    //     }, '类别新增成功');
-    //   }, (res: HttpErrorResponse) => {
-    //     this.appComponent.error(() => {
-    //     }, `类别新增失败:${res.error.message}`);
-    //   });
+    this.saveUnit(this.inOutForm.value);
   }
 
-  get name(): AbstractControl {
-    return this.categoryFrom.get('name');
+  bindGood(goodDate: Good) {
+    this.inOutForm.patchValue({
+      good: goodDate
+    });
   }
-
-  get weight(): AbstractControl {
-    return this.categoryFrom.get('weight');
-  }
-
-  get slug(): AbstractControl {
-    return this.categoryFrom.get('slug');
-  }
-
 }
