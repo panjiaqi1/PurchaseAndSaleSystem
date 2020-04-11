@@ -38,4 +38,13 @@ public class InOutServiceImpl implements InOutService {
         }
         return inOutList;
     }
+
+    @Override
+    public List<InOut> findAllByGoodId(Long goodId) {
+        List<InOut> inOutList = inOutMapper.findAllByGoodId(goodId);
+        for (InOut inout : inOutList) {
+            inout.setGood(goodMapper.findById(inout.getGood().getId()));
+        }
+        return inOutList;
+    }
 }

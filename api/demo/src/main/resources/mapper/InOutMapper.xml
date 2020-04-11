@@ -8,21 +8,22 @@
         <result property="inputOrOutput" column="inputOrOutput"/>
         <result property="createTime" column="create_time"/>
         <association property="good" javaType="Good">
-            <id property="id" column="g_id"/>
+            <id property="id" column="good_id"/>
             <result property="name" column="p_name"/>
         </association>
         <association property="user" javaType="User">
-            <id property="id" column="u_id"/>
+            <id property="id" column="user_id"/>
             <result property="name" column="u_name"/>
         </association>
     </resultMap>
     <select id="findAllByGoodId" resultMap="inOutResultMap">
-    SELECT in_out.number,
+    SELECT in_out.amount,
         in_out.create_time,
         in_out.id,
-        in_out.input_or_output AS inputOrOutput
-    FROM in_out LEFT OUTER JOIN product ON in_out.good_id = good.id
-    WHERE in_out.good_id = #{id,jdbcType=INTEGER};
+        in_out.good_id,
+        in_out.user_id
+    FROM in_out LEFT OUTER JOIN good ON in_out.good_id = good.id
+    WHERE in_out.input_or_output = 1 and in_out.good_id = #{id,jdbcType=INTEGER};
 
     </select>
 
@@ -30,8 +31,8 @@
     SELECT in_out.id,
         in_out.amount,
         in_out.create_time,
-        in_out.good_id as g_id,
-        in_out.user_id as u_id
+        in_out.good_id,
+        in_out.user_id
     FROM in_out  WHERE in_out.input_or_output = 1;
 
     </select>

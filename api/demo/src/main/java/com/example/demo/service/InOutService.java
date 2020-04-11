@@ -15,5 +15,8 @@ public interface InOutService {
      */
     List<InOut> findAllByIn();
 
-
+    /**
+     * 通过货物获取所有进货记录
+     */
+    List<InOut> findAllByGoodId(Long goodId);
 }

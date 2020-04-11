@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.InOut;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,8 +13,10 @@ import java.util.List;
 @Mapper
 @Repository
 public interface InOutMapper {
-
-    List<InOut> findAllByGoodId(Long productId);
+    /**
+     * 通过货物查询进货数据
+     */
+    List<InOut> findAllByGoodId(@Param("id") Long goodId);
 
     /**
      * 进货
