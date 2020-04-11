@@ -18,7 +18,7 @@ public interface UnitService {
     /**
      * 更新单位
      */
-    void update(Unit unit);
+    void update(Long id, Unit unit);
 
     /**
      * 通过Id获取单位

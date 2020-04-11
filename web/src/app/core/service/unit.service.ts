@@ -8,7 +8,7 @@ import { Unit } from '../../common/unit';
 })
 export class UnitService {
 
-  private baseUrl = 'company';
+  private baseUrl = 'unit';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -16,24 +16,24 @@ export class UnitService {
   /**
    * 保存
    */
-  public save(company: Unit): Observable<Unit> {
-    return this.httpClient.post<Unit>(this.baseUrl, company);
+  public save(unit: Unit): Observable<Unit> {
+    return this.httpClient.post<Unit>(this.baseUrl, unit);
   }
 
   /**
    * 更新单位信息
    * @param id  单位id
-   * @param company  单位信息
+   * @param unit  单位信息
    */
-  public update(id: number, company: Unit): Observable<Unit> {
-    return this.httpClient.put<Unit>(`${this.baseUrl}/${id}`, company);
+  public update(id: number, unit: Unit): Observable<Unit> {
+    return this.httpClient.put<Unit>(`${this.baseUrl}/${id}`, unit);
   }
 
   /**
    * 通过id获取单位
    * @param id  单位id
    */
-  public getById(id: number): Observable<Unit> {
+  public findById(id: number): Observable<Unit> {
     return this.httpClient.get<Unit>(`${this.baseUrl}/${id}`);
   }
 

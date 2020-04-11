@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Unit } from '../../../../common/unit';
+import { UnitService } from '../../../../core/service/unit.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AppComponent } from '../../../../app.component';
 
 @Component({
   selector: 'app-edit',
@@ -9,44 +13,68 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditComponent implements OnInit {
 
-  tagForm: FormGroup;
+  unitForm: FormGroup;
 
-  tag: any;
+  /**
+   * 要编辑的单位Id
+   */
+  id: number;
+
+  unit: Unit;
 
   constructor(private builder: FormBuilder,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private unitService: UnitService,
+              private appComponent: AppComponent,
+              private router: Router) {
     this.createForm();
   }
 
   createForm() {
-    this.tagForm = this.builder.group({
+    this.unitForm = this.builder.group({
       name: ['', Validators.required],
     });
   }
 
   initForm(data) {
-    this.tagForm.setValue({
+    this.unitForm.setValue({
       name: data.name,
     });
   }
 
   ngOnInit() {
+    this.getEditUnit();
+  }
+
+  getEditUnit() {
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params.id;
+      this.unitService.findById(params.id)
+        .subscribe((unit: Unit) => {
+          this.initForm(unit);
+        });
+    });
   }
 
   /** https://angular.cn/guide/form-validation#built-in-validators */
   get name(): AbstractControl {
-    return this.tagForm.get('name');
+    return this.unitForm.get('name');
   }
 
-  public updateTag(tag: any) {
-    this.route.params.subscribe(params => {
-      console.log(params);
-      console.log(tag);
-    });
+  public updateTag(unit: Unit) {
+    this.unitService.update(this.id, unit)
+      .subscribe(() => {
+        this.appComponent.success(() => {
+          this.router.navigateByUrl('/unit');
+        }, '更新成功');
+      }, (res: HttpErrorResponse) => {
+        this.appComponent.error(() => {
+        }, `更新失败:${res.error.message}`);
+      });
   }
 
   submit() {
-    this.updateTag(this.tagForm.value);
+    this.updateTag(this.unitForm.value);
   }
 
 }

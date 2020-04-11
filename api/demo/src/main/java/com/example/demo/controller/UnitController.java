@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
  * 单位管理控制器
  */
 @RestController
-@RequestMapping("company")
+@RequestMapping("unit")
 public class UnitController {
-    private final UnitService companyService;
+    private final UnitService unitService;
 
-    public UnitController(UnitService companyService) {
-        this.companyService = companyService;
+    public UnitController(UnitService unitService) {
+        this.unitService = unitService;
     }
 
     /**
      * 新增单位
      */
     @PostMapping
-    public void addCompany(Unit company) {
-        companyService.add(company);
+    public void addCompany(@RequestBody Unit unit) {
+        unitService.add(unit);
     }
 
     /**
@@ -32,7 +32,7 @@ public class UnitController {
      */
     @GetMapping()
     public List<Unit> getAll() {
-        return companyService.findAll();
+        return unitService.findAll();
     }
 
     /**
@@ -40,15 +40,15 @@ public class UnitController {
      */
     @GetMapping("{id}")
     public Unit findById(@PathVariable Long id) {
-        return companyService.findById(id);
+        return unitService.findById(id);
     }
 
     /**
      * 更新单位
      */
     @PutMapping("{id}")
-    public void update(@PathVariable Long id, @RequestBody Unit company) {
-        companyService.update(company);
+    public void update(@PathVariable Long id, @RequestBody Unit unit) {
+        unitService.update(id, unit);
     }
 
     /**
@@ -56,6 +56,6 @@ public class UnitController {
      */
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
-        companyService.delete(id);
+        unitService.delete(id);
     }
 }
