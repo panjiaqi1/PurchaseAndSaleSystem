@@ -8,7 +8,7 @@ import javax.persistence.*;
  * @author panjiaqi
  */
 @Entity
-public class InOut {
+public class InOut implements BaseEntity<Long>{
     /**
      * 进货
      */
@@ -62,10 +62,12 @@ public class InOut {
     public InOut() {
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

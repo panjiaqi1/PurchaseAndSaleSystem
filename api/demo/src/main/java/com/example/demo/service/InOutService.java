@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.InOut;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface InOutService {
     /**
@@ -11,7 +11,18 @@ public interface InOutService {
     void save(InOut inOut);
 
     /**
-     * 通过货物获取所有进货记录
+     * 通过Id查询
      */
-    List<InOut> findAllByBeInputAndGoodId(Long goodId);
+    InOut findById(Long id);
+
+    /**
+     * 更新
+     */
+    void update(Long id, InOut inOut);
+
+    /**
+     * 分页
+     */
+    Page<InOut> page(Pageable pageable, Long goodId, boolean beInput);
+
 }

@@ -1,8 +1,11 @@
 package com.example.demo.mapper;
 
+import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,14 +17,59 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface InOutMapper {
+public interface InOutMapper extends CrudMapper<InOut, Long> {
     /**
-     * 进货
+     * 保存
      */
-    void inGoodSave(Integer amount, Integer inputOrOutput, Long createTime, Long goodId, Long userId);
+    void save(@Param("amount") Integer amount, @Param("beInput") boolean beInput,
+              @Param("createTime") Long createTime, @Param("goodId") Long goodId, @Param("userId") Long userId);
 
     /**
-     * 按出/入库、货物进行查询获取所有记录
+     * 通过Id查询
+     *
+     * @param id 出/入库Id
+     * @return InOut
      */
-    List<InOut> findAllByBeInputAndGoodId(boolean BeInput, @Param("id") Long goodId);
+    InOut findById(@Param("id") Long id);
+
+    /**
+     * 分页数据
+     *
+     * @return List<InOut>
+     */
+    List<InOut> findAll(@Param("goodId") Long goodId, @Param("inPut") boolean inPut, @Param("pageable") Pageable pageable);
+
+    /**
+     * 分页数据
+     *
+     * @param pageable 分页参数
+     * @return
+     */
+    default Page<InOut> page(@Param("pageable") Pageable pageable, @Param("goodId") Long goodId, @Param("inPut") boolean inPut) {
+        return new PageImpl<>(
+                this.findAll(goodId, inPut, pageable),
+                pageable,
+                this.count()
+        );
+    }
+
+    /**
+     * 当前数据总条数
+     *
+     * @return 总数
+     */
+    @Override
+    @Select("select count(*) from in_out")
+    long count();
+
+    /**
+     * 更新
+     *
+     * @param inOut 实体
+     * @return 更新成功true, 失败false
+     */
+    @Override
+    @Update("UPDATE in_out SET amount = #{inOut.amount}, good_id = #{inOut.good.id}, " +
+            "WHERE id = #{inOut.id}")
+    boolean update(@Param("inOut") InOut inOut);
 }

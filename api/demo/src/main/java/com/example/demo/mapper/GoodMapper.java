@@ -31,7 +31,7 @@ public interface GoodMapper extends CrudMapper<Good, Long> {
     /**
      * 分页数据
      *
-     * @return List<Product>
+     * @return List<Good>
      */
     List<Good> findAll(@Param("name") String name, @Param("pageable") Pageable pageable);
 
