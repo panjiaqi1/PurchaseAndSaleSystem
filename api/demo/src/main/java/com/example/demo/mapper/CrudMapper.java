@@ -45,7 +45,7 @@ public interface CrudMapper<T extends BaseEntity, D> {
      * @param id 关键字
      * @return 实体
      */
-    T findById(D id);
+    T findById(@Param("id") D id);
 
     /**
      * 插入新数据，并返回主键值

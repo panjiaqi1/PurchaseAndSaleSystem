@@ -5,9 +5,11 @@ import java.util.List;
 
 /**
  * 扩展字段定义
+ *
+ * @author panjiaqi
  */
 @Entity
-public class ExtendedField {
+public class ExtendedField implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,10 +27,12 @@ public class ExtendedField {
     public ExtendedField() {
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

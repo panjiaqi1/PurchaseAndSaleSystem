@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * 单位实体
+ *
+ * @author panjiaqi
  */
 @Entity
 public class Unit implements BaseEntity<Long> {

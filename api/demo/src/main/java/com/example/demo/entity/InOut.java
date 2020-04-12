@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 /**
  * 进出库
+ *
+ * @author panjiaqi
  */
 @Entity
 public class InOut {

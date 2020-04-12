@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * 菜单仓库，用于自动创建数据表
+ *
+ * @author panjiaqi
  */
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 }

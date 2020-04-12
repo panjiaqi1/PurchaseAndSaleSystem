@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 产品管理控制器
+ *
+ * @author panjiaqi
  */
 @RestController
 @RequestMapping("good")

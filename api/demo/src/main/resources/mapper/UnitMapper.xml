@@ -3,12 +3,7 @@
 <mapper namespace="com.example.demo.mapper.UnitMapper">
 
     <select id="findAll" parameterType="org.springframework.data.domain.Pageable" resultType="Unit">
-        SELECT in_out.amount,
-        in_out.create_time,
-        in_out.id,
-        in_out.good_id,
-        in_out.user_id
-        FROM in_out LEFT OUTER JOIN good ON in_out.good_id = good.id
+        select * from unit
         <if test="pageable != null">
 
             <bind name="size" value="pageable.getPageSize()"/>
@@ -24,16 +19,6 @@
                 </foreach>
             </if>
             limit #{pageable.offset} , ${size}
-        </if>
-        WHERE in_out.input_or_output =
-        <if test="inPut">
-            0
-        </if>
-        <if test="!inPut">
-            1
-        </if>
-        <if test="id != null">
-            and in_out.good_id = #{id,jdbcType=INTEGER};
         </if>
     </select>
 

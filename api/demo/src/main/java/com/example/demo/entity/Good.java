@@ -5,6 +5,8 @@ import javax.persistence.*;
 
 /**
  * 货物实体
+ *
+ * @author panjiaqi
  */
 @Entity
 public class Good {

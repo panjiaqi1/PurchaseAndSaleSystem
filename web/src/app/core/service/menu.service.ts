@@ -13,6 +13,8 @@ export class MenuService {
     new Menu({name: '首页', url: '/dashboard', roles: [Menu.ROLE_ADMIN, Menu.ROLE_INPUT_PRODUCT]}),
     new Menu({name: '进货管理', url: '/inputGood', roles: [Menu.ROLE_ADMIN]}),
     new Menu({name: '货物管理', url: '/good', roles: [Menu.ROLE_ADMIN]}),
+    new Menu({name: '扩展字段', url: '/extendedField', roles: [Menu.ROLE_ADMIN]}),
+    new Menu({name: '扩展字段记录', url: '/goodExtendedField', roles: [Menu.ROLE_ADMIN]}),
     new Menu({name: '单位管理', url: '/unit', roles: [Menu.ROLE_ADMIN]}),
     new Menu({name: '用户管理', url: '/user', roles: [Menu.ROLE_ADMIN]}),
   ]);

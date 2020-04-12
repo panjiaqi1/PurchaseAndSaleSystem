@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 进出库控制器
+ *
+ * @author panjiaqi
  */
 @RestController
 @RequestMapping("inOut")

@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * 货物仓库，对应 GoodMapper.xml
+ *
+ * @author panjiaqi
  */
 @Mapper
 @Repository

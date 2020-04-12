@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 /**
  * 菜单实体
+ *
+ * @author panjiaqi
  */
 @Entity
 public class Menu {

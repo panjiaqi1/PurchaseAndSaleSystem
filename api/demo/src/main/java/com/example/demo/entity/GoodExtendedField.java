@@ -4,9 +4,11 @@ import javax.persistence.*;
 
 /**
  * 扩展字段记录
+ *
+ * @author panjiaqi
  */
 @Entity
-public class GoodExtendedField {
+public class GoodExtendedField implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,10 +33,12 @@ public class GoodExtendedField {
     public GoodExtendedField() {
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

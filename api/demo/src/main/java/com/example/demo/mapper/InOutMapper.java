@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * 进出库仓库，对应 InOutMapper.xml
+ *
+ * @author panjiaqi
  */
 @Mapper
 @Repository

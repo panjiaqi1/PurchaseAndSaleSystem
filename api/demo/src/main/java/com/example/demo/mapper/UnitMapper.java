@@ -5,40 +5,14 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * 单位库仓库，对应 UnitMapper.xml
+ *
+ * @author panjiaqi
  */
 @Mapper
 @Repository
 public interface UnitMapper extends CrudMapper<Unit, Long> {
-
-//    /**
-//     * 获取所有
-//     *
-//     * @return List<Unit>
-//     */
-//    List<Unit> findAll();
-////
-//    /**
-//     * 新增
-//     *
-//     * @param unit 单位
-//     */
-//    void add(Unit unit);
-//
-//    /**
-//     * 删除
-//     *
-//     * @param id 单位Id
-//     */
-//    void delete(Long id);
-//
-//    /**
-//     * 编辑
-//     */
-//    void update(String name, Long id);
 
     /**
      * 通过Id查询

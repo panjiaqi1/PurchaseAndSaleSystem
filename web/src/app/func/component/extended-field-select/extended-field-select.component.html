@@ -1,0 +1,4 @@
+<select [compareWith]="comparedWithId" class="form-control" [(ngModel)]="extendedField" (change)="change(extendedField)">
+  <option [ngValue]="null" >请选择扩展字段...</option>
+  <option *ngFor="let _extendedField of extendedFields" [ngValue]="_extendedField">{{_extendedField.name}}</option>
+</select>

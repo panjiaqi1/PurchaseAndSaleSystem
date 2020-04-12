@@ -5,13 +5,15 @@ import { UnitSelectComponent } from './component/unit-select/unit-select.compone
 import { GoodSelectComponent } from './component/good-select/good-select.component';
 import { PageComponent } from './component/page/page.component';
 import { SizeComponent } from './component/size/size.component';
+import { ExtendedFieldSelectComponent } from './component/extended-field-select/extended-field-select.component';
 
 @NgModule({
   declarations: [
     UnitSelectComponent,
     GoodSelectComponent,
     PageComponent,
-    SizeComponent
+    SizeComponent,
+    ExtendedFieldSelectComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { SizeComponent } from './component/size/size.component';
     UnitSelectComponent,
     GoodSelectComponent,
     PageComponent,
-    SizeComponent
+    SizeComponent,
+    ExtendedFieldSelectComponent
   ]
 })
 export class FuncModule {
