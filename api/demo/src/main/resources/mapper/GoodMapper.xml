@@ -3,8 +3,8 @@
 <mapper namespace="com.example.demo.mapper.GoodMapper">
 
     <resultMap id="goodResultMap" type="com.example.demo.entity.Good">
-        <id property="id" column="p_id"/>
-        <result property="name" column="name1"/>
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
         <result property="description" column="description"/>
         <result property="stock" column="stock"/>
         <association property="unit" javaType="Unit">
@@ -13,10 +13,41 @@
         </association>
     </resultMap>
 
-    <select id="findById" resultMap="goodResultMap">
-        SELECT good.id AS p_id,
+    <select id="findAll" resultMap="goodResultMap" parameterType="org.springframework.data.domain.Pageable"
+            resultType="Good">
+        SELECT good.id,
             good.description,
-            good.`name` AS name1,
+            good.`name`,
+            good.stock,
+            good.unit_id AS c_id,
+            unit.`name` AS c_name
+        FROM good LEFT OUTER JOIN unit ON good.unit_id = unit.id
+        <where>
+            <if test="name != null ">
+                good.`name` like "%"#{name,jdbcType=VARCHAR}"%"
+            </if>
+        </where>
+        <if test="pageable != null">
+            <bind name="size" value="pageable.getPageSize()"/>
+            <if test="pageable.sort != null">
+                <foreach collection="pageable.sort" item="sort" index="index">
+                    <if test="index == 0">
+                        order by
+                    </if>
+                    <if test="index > 0">
+                        ,
+                    </if>
+                    ${sort.property} ${sort.direction.name}
+                </foreach>
+            </if>
+            limit #{pageable.offset} , ${size}
+        </if>
+    </select>
+
+    <select id="findById" resultMap="goodResultMap">
+        SELECT good.id,
+            good.description,
+            good.`name`,
             good.stock,
             good.unit_id AS c_id,
             unit.`name` AS c_name
@@ -24,37 +55,10 @@
         WHERE good.id = #{id,jdbcType=INTEGER};
     </select>
 
-    <select id="findAll" resultMap="goodResultMap">
-        SELECT good.id AS p_id,
-            good.description,
-            good.`name` AS name1,
-            good.stock,
-            good.unit_id AS c_id,
-            unit.`name` AS c_name
-        FROM good LEFT OUTER JOIN unit ON good.unit_id = unit.id;
-    </select>
 
     <insert id="save" parameterType="com.example.demo.entity.Good">
         insert into good (name, description, unit_id)
         values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{unitId,jdbcType=INTEGER})
     </insert>
 
-    <update id="updateStock" parameterType="com.example.demo.entity.Good">
-        update good set
-        stock = #{stock,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-
-    <delete id="delete" parameterType="java.lang.Long">
-        delete from good where id= #{id,jdbcType=INTEGER}
-    </delete>
-
-
-    <update id="update" parameterType="com.example.demo.entity.Good">
-        update good set
-        name = #{name,jdbcType=VARCHAR},
-        description = #{description,jdbcType=VARCHAR},
-        unit_id = #{unit_id,jdbcType=VARCHAR}
-        where id = #{id}
-    </update>
 </mapper>

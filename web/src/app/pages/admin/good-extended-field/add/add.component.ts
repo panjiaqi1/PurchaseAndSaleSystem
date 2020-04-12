@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppComponent } from '../../../../app.component';
-import { ExtendedFieldService } from '../../../../core/service/extended-field.service';
 import { GoodExtendedFieldService } from '../../../../core/service/good-extended-field.service';
 import { GoodExtendedField } from '../../../../common/good-extended-field';
 import { ExtendedField } from '../../../../common/extended-field';

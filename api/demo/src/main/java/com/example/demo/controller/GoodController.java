@@ -1,8 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Good;
+import com.example.demo.entity.GoodExtendedField;
 import com.example.demo.service.GoodService;
+
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -59,4 +66,14 @@ public class GoodController {
     public void delete(@PathVariable Long id) {
         goodService.delete(id);
     }
+
+    /**
+     * 分页并查询
+     */
+    @GetMapping("page")
+    public Page<Good> page(@RequestParam(required = false) String name,
+                           @SortDefault.SortDefaults(@SortDefault(sort = "id", direction = Sort.Direction.DESC)) Pageable pageable) {
+        return goodService.page(pageable, name);
+    }
+
 }

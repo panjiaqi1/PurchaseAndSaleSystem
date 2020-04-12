@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { CoreModule } from '../core.module';
 import { HttpClient } from '@angular/common/http';
 import { Good } from '../../common/good';
+import { Page } from '../../base/page';
 
 @Injectable({
   providedIn: CoreModule
@@ -53,5 +54,17 @@ export class GoodService {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-
+  /**
+   * 分页
+   */
+  public page(page: number, size: number, name: string): Observable<Page<Good>> {
+    const params: { [key: string]: any } = {
+      page: String(page),
+      size: String(size)
+    };
+    if (name !== '') {
+      params.name = name;
+    }
+    return this.httpClient.get<Page<Good>>(`${this.baseUrl}/page`, {params});
+  }
 }
