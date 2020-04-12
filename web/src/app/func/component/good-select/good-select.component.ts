@@ -40,8 +40,8 @@ export class GoodSelectComponent implements OnInit {
     });
   }
 
-  public change(unit: Good): void {
-    this.goodSelect.emit(unit);
+  public change(good: Good): void {
+    this.goodSelect.emit(good);
   }
 
   comparedWithId(item1: { id: number }, item2: { id: number }) {

@@ -6,6 +6,7 @@
     </button>
   </div>
 </div>
+<app-size [size]="size" (changeSize)="reloadBySize($event)"></app-size>
 
 <table class="table table-striped table-bordered mt-3">
   <thead class="thead-light">
@@ -16,7 +17,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let unit of units, index as i">
+  <tr *ngFor="let unit of units?.content, index as i">
     <td>{{i + 1}}</td>
     <td>{{unit.name}}</td>
     <td>
@@ -32,3 +33,5 @@
   </tr>
   </tbody>
 </table>
+<app-page [page]="units?.number" [size]="units?.size" [totalElements]="units?.totalElements"
+          (changePage)="reloadByPage($event)"></app-page>

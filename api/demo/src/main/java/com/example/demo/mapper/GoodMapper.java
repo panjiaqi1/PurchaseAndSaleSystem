@@ -1,13 +1,19 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.Good;
+import com.example.demo.entity.Unit;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * 货物仓库，对应 GoodMapper.xml
+ *
+ * @author panjiaqi
  */
 @Mapper
 @Repository
@@ -26,6 +32,10 @@ public interface GoodMapper {
     void save(String name, String description, Long unitId);
 
     void updateStock(Integer stock, Long id);
+
+    @Insert("INSERT INTO good (name, unit_id) VALUES (#{good.name}, #{good.unit.id})")
+    @SelectKey(statement = "select last_insert_id()", keyProperty = "good.id", before = false, resultType = long.class)
+    void insert(@Param("good") Good good);
 
     /**
      * 删除

@@ -1,0 +1,10 @@
+<div class="dataTables_length">
+  显示 &nbsp;
+  <label>
+    <select class="border-0 bg-white ml-2 mr-2" [ngModel]="size" (change)="sizeChange($event.target.value)" class="form-control input-sm">
+      <option *ngFor="let _size of sizes">{{_size}}</option>
+    </select>
+  </label>
+  &nbsp;条
+</div>
+

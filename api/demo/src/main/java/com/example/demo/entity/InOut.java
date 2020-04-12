@@ -4,9 +4,19 @@ import javax.persistence.*;
 
 /**
  * 进出库
+ *
+ * @author panjiaqi
  */
 @Entity
 public class InOut {
+    /**
+     * 进货
+     */
+    public static boolean INPUT = true;
+    /**
+     * 出货
+     */
+    public static boolean OUTPUT = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,23 +24,27 @@ public class InOut {
     /**
      * 数量
      */
-    private Integer amount;
+    @Column(nullable = false)
+    private Integer amount = 0;
 
     /**
      * 时间
      */
+    @Column(nullable = false)
     private Long createTime = System.currentTimeMillis();
 
     /**
      * 出库/入库
-     * 0-出库
-     * 1-入库
+     * false-出库
+     * true-入库
      */
-    private Integer inputOrOutput;
+    @Column(nullable = false)
+    private Boolean beInput = InOut.INPUT;
 
     /**
      * 是否被删除,用于软删除
      */
+    @Column(nullable = false)
     private Boolean deleted = false;
 
     /**
@@ -72,12 +86,12 @@ public class InOut {
         this.createTime = createTime;
     }
 
-    public Integer getInputOrOutput() {
-        return inputOrOutput;
+    public Boolean getBeInput() {
+        return beInput;
     }
 
-    public void setInputOrOutput(Integer inputOrOutput) {
-        this.inputOrOutput = inputOrOutput;
+    public void setBeInput(Boolean beInput) {
+        this.beInput = beInput;
     }
 
     public Boolean getDeleted() {

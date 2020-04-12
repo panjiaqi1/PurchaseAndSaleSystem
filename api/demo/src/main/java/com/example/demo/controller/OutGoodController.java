@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 出库控制器
+ *
+ * @author panjiaqi
  */
 @Controller
 @RequestMapping("outputCargo")

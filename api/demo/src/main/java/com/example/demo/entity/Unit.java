@@ -5,9 +5,11 @@ import java.util.List;
 
 /**
  * 单位实体
+ *
+ * @author panjiaqi
  */
 @Entity
-public class Unit {
+public class Unit implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,10 +28,21 @@ public class Unit {
     public Unit() {
     }
 
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", Good=" + Good +
+                '}';
+    }
+
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

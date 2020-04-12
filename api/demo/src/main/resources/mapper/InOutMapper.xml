@@ -16,27 +16,23 @@
             <result property="name" column="u_name"/>
         </association>
     </resultMap>
-    <select id="findAllByGoodId" resultMap="inOutResultMap">
+    <select id="findAllByBeInputAndGoodId" resultMap="inOutResultMap">
         SELECT in_out.amount,
         in_out.create_time,
         in_out.id,
         in_out.good_id,
         in_out.user_id
         FROM in_out LEFT OUTER JOIN good ON in_out.good_id = good.id
-        WHERE in_out.input_or_output = 1
+        WHERE in_out.input_or_output =
+        <if test="inPut">
+            0
+        </if>
+        <if test="!inPut">
+            1
+        </if>
         <if test="id != null">
             and in_out.good_id = #{id,jdbcType=INTEGER};
         </if>
-    </select>
-
-    <select id="findAllByIn" resultMap="inOutResultMap">
-    SELECT in_out.id,
-        in_out.amount,
-        in_out.create_time,
-        in_out.good_id,
-        in_out.user_id
-    FROM in_out  WHERE in_out.input_or_output = 1;
-
     </select>
 
     <insert id="inGoodSave" parameterType="com.example.demo.entity.InOut">

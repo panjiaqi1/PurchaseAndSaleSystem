@@ -5,10 +5,16 @@ import com.example.demo.entity.Unit;
 import java.util.List;
 
 import com.example.demo.service.UnitService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 
 /**
  * 单位管理控制器
+ *
+ * @author panjiaqi
  */
 @RestController
 @RequestMapping("unit")
@@ -24,7 +30,7 @@ public class UnitController {
      */
     @PostMapping
     public void save(@RequestBody Unit unit) {
-        unitService.add(unit);
+        unitService.save(unit);
     }
 
     /**
@@ -33,6 +39,14 @@ public class UnitController {
     @GetMapping()
     public List<Unit> getAll() {
         return unitService.findAll();
+    }
+
+    /**
+     * 分页
+     */
+    @GetMapping("page")
+    public Page<Unit> page(@SortDefault.SortDefaults(@SortDefault(sort = "id", direction = Sort.Direction.DESC))Pageable pageable) {
+        return this.unitService.page(pageable);
     }
 
     /**

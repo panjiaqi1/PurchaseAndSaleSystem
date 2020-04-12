@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 进出库控制器
+ *
+ * @author panjiaqi
  */
 @RestController
 @RequestMapping("inOut")
@@ -29,18 +31,10 @@ public class InOutController {
     }
 
     /**
-     * 获取所有进货记录
-     */
-    @GetMapping
-    public List<InOut> findAllByIn() {
-        return inOutService.findAllByIn();
-    }
-
-    /**
      * 通过货物获取所有进货记录
      */
     @GetMapping("/query")
-    public List<InOut> findAllByGoodId(@RequestParam(required = false) Long goodId) {
-        return inOutService.findAllByGoodId(goodId);
+    public List<InOut> findAllByBeInputAndGoodId(@RequestParam(required = false) Long goodId) {
+        return inOutService.findAllByBeInputAndGoodId(goodId);
     }
 }

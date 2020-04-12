@@ -4,6 +4,7 @@ import com.example.demo.entity.Good;
 import com.example.demo.mapper.UnitMapper;
 import com.example.demo.mapper.GoodMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -20,7 +21,11 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public void save(Good good) {
-        goodMapper.save(good.getName(), good.getDescription(), good.getUnit().getId());
+//        Assert.notNull(good, "null");
+//        Assert.notNull(good.getUnit(), "null");
+//        Assert.notNull(good.getUnit().getId(),"null");
+//        goodMapper.save(good);
+//        goodMapper.save(good.getName(), good.getDescription(), good.getUnit().getId());
     }
 
     @Override

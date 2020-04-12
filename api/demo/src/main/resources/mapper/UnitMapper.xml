@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.mapper.UnitMapper">
-    <select id="findAll" resultType="com.example.demo.entity.Unit">
+
+    <select id="findAll" parameterType="org.springframework.data.domain.Pageable" resultType="Unit">
         select * from unit
+        <if test="pageable != null">
+
+            <bind name="size" value="pageable.getPageSize()"/>
+            <if test="pageable.sort != null">
+                <foreach collection="pageable.sort" item="sort" index="index">
+                    <if test="index == 0">
+                        order by
+                    </if>
+                    <if test="index > 0">
+                        ,
+                    </if>
+                    ${sort.property} ${sort.direction.name}
+                </foreach>
+            </if>
+            limit #{pageable.offset} , ${size}
+        </if>
     </select>
-
-    <insert id="add" parameterType="com.example.demo.entity.Unit">
-        insert into unit (name)
-        values (#{name,jdbcType=VARCHAR})
-    </insert>
-
-    <delete id="delete" parameterType="java.lang.Long">
-        delete from unit where id= #{id,jdbcType=INTEGER}
-    </delete>
 
     <select id="findById" resultType="com.example.demo.entity.Unit">
         select * from unit where id= #{id,jdbcType=INTEGER}
     </select>
 
-    <update id="update" parameterType="com.example.demo.entity.Unit">
-        update unit set
-        name = #{name,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
 </mapper>

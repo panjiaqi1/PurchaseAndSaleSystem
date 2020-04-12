@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.entity.GoodExtendedField;
 import com.example.demo.entity.InOut;
 import com.example.demo.entity.Good;
 
@@ -17,7 +18,7 @@ class ProductMapperTest {
     @Autowired
     GoodRepository productRepository;
     @Autowired
-    InOutMapper inOutLibraryMapper;
+    GoodExtendedFieldMapper goodExtendedFieldMapper;
 
     @Test
     public void save() {
@@ -33,19 +34,6 @@ class ProductMapperTest {
     @Test
     public void findById() {
         Good product = this.productMapper.findById(1L);
-
-    }
-
-    @Test
-    public void findAllByProductId() {
-        List<InOut> inOutLibraries = this.inOutLibraryMapper.findAllByGoodId(null);
-
-
-    }
-
-    @Test
-    public void inGoodSave() {
-        this.inOutLibraryMapper.inGoodSave(20, 1, System.currentTimeMillis(), 1L,1L);
 
     }
 }

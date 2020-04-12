@@ -9,22 +9,19 @@ import java.util.List;
 
 /**
  * 进出库仓库，对应 InOutMapper.xml
+ *
+ * @author panjiaqi
  */
 @Mapper
 @Repository
 public interface InOutMapper {
-    /**
-     * 通过货物查询进货数据
-     */
-    List<InOut> findAllByGoodId(@Param("id") Long goodId);
-
     /**
      * 进货
      */
     void inGoodSave(Integer amount, Integer inputOrOutput, Long createTime, Long goodId, Long userId);
 
     /**
-     * 所有进货记录
+     * 按出/入库、货物进行查询获取所有记录
      */
-    List<InOut> findAllByIn();
+    List<InOut> findAllByBeInputAndGoodId(boolean BeInput, @Param("id") Long goodId);
 }

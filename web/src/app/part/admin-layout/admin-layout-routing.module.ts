@@ -34,6 +34,20 @@ const routes: Routes = [
         }
       },
       {
+        path: 'extendedField',
+        loadChildren: () => import('../../pages/admin/extended-field/extended-field.module').then(m => m.ExtendedFieldModule),
+        data: {
+          title: '扩展字段'
+        }
+      },
+      {
+        path: 'goodExtendedField',
+        loadChildren: () => import('../../pages/admin/good-extended-field/good-extended-field.module').then(m => m.GoodExtendedFieldModule),
+        data: {
+          title: '扩展字段记录'
+        }
+      },
+      {
         path: 'user',
         loadChildren: () => import('../../pages/admin/user/user.module').then(m => m.UserModule),
         data: {

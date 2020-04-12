@@ -61,7 +61,7 @@ export class EditComponent implements OnInit {
     return this.unitForm.get('name');
   }
 
-  public updateTag(unit: Unit) {
+  public update(unit: Unit) {
     this.unitService.update(this.id, unit)
       .subscribe(() => {
         this.appComponent.success(() => {
@@ -74,7 +74,7 @@ export class EditComponent implements OnInit {
   }
 
   submit() {
-    this.updateTag(this.unitForm.value);
+    this.update(this.unitForm.value);
   }
 
 }

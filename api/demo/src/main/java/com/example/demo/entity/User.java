@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 /**
  * 用户实体
+ *
+ * @author panjiaqi
  */
 @Entity
 public class User {
