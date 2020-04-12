@@ -37,13 +37,6 @@ class ProductMapperTest {
     }
 
     @Test
-    public void findAllByProductId() {
-        List<InOut> inOutLibraries = this.inOutLibraryMapper.findAllByGoodId(null);
-
-
-    }
-
-    @Test
     public void inGoodSave() {
         this.inOutLibraryMapper.inGoodSave(20, 1, System.currentTimeMillis(), 1L,1L);
 

@@ -22,8 +22,4 @@ class ProductServiceImplTest {
         Good product = this.productService.findById(1L);
     }
 
-    @Test
-    void find() {
-        List<InOut> product = this.inOutService.findAllByGoodId(1L);
-    }
 }

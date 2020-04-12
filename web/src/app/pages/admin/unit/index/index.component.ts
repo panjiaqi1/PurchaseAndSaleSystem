@@ -3,6 +3,8 @@ import { Unit } from '../../../../common/unit';
 import { AppComponent } from '../../../../app.component';
 import { UnitService } from '../../../../core/service/unit.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { config } from '../../../../conf/app.config';
+import { Page } from '../../../../base/page';
 
 @Component({
   selector: 'app-index',
@@ -11,19 +13,31 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class IndexComponent implements OnInit {
 
-  units: Array<Unit>;
+  /**
+   * 页码
+   */
+  page: number;
+
+  /**
+   * 每页大小
+   */
+  size: number;
+
+  units: Page<Unit>;
 
   constructor(private appComponent: AppComponent,
               private unitService: UnitService) {
   }
 
   ngOnInit() {
-    this.getAll();
+    this.page = 0;
+    this.size = config.size;
+    this.pageAll();
   }
 
-  public getAll() {
-    this.unitService.getAll()
-      .subscribe((data: Array<Unit>) => {
+  public pageAll() {
+    this.unitService.page(this.page, this.size)
+      .subscribe((data: Page<Unit>) => {
         this.units = data;
       }, () => {
         console.log('error');
@@ -34,7 +48,7 @@ export class IndexComponent implements OnInit {
     // 确认框
     this.appComponent.confirm(() => {
       this.unitService.deleteById(unit.id).subscribe(() => {
-        this.getAll();
+        this.pageAll();
         // 操作成功提示
         this.appComponent.success(() => {
         }, '删除成功');
@@ -44,5 +58,21 @@ export class IndexComponent implements OnInit {
         }, `删除失败:${res.error.message}`);
       });
     }, '即将删除单位');
+  }
+
+  /**
+   * 重新加载数据 根据 size
+   */
+  public reloadBySize(size: number): void {
+    this.size = size;
+    this.pageAll();
+  }
+
+  /**
+   * 重新加载数据 根据 page
+   */
+  public reloadByPage(page: number): void {
+    this.page = page;
+    this.pageAll();
   }
 }

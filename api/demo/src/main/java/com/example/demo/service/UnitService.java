@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Unit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -8,7 +10,7 @@ public interface UnitService {
     /**
      * 新增单位
      */
-    void add(Unit unit);
+    void save(Unit unit);
 
     /**
      * 获取所有单位
@@ -29,4 +31,9 @@ public interface UnitService {
      * 删除
      */
     void delete(Long id);
+
+    /**
+     * 分页
+     */
+    Page<Unit> page(Pageable pageable);
 }

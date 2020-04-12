@@ -1,0 +1,31 @@
+<div class="row" *ngIf="innerTotalElements !== 0">
+  <div class="col-md-8">
+    <small>
+      第{{ page * size + 1 }}至{{ size + page * size > innerTotalElements ? innerTotalElements : size + page * size }}条记录,
+      共{{ innerTotalElements }}条记录
+    </small>
+  </div>
+  <div class="col-md-4">
+    <nav aria-label="_page navigation" class="float-right">
+      <ul class="pagination pagination-sm">
+        <li [ngClass]="{'page-item':true, 'disabled': page === paginatorRange[0]}">
+          <a class="page-link" (click)="change(page - 1)">
+            <span aria-hidden="true">上一页</span>
+          </a>
+        </li>
+
+        <li [ngClass]="{'active': page === i, 'page-item': true}" *ngFor="let i of paginatorRange">
+          <a class="page-link" href="javascript:void(0);" (click)="change(i)">
+            {{i + 1}}
+          </a>
+        </li>
+
+        <li [ngClass]="{'page-item':true, 'disabled': page === paginatorRange[paginatorRange.length - 1]}">
+          <a id="next" class="page-link" (click)="change(page + 1)">
+            <span aria-hidden="true">下一页</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

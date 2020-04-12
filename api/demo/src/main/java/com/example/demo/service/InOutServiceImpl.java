@@ -20,28 +20,20 @@ public class InOutServiceImpl implements InOutService {
 
     @Override
     public void save(InOut inOut) {
-        if (inOut.getInputOrOutput() == 1) {
-            inOutMapper.inGoodSave(inOut.getAmount(), inOut.getInputOrOutput(),
-                    System.currentTimeMillis(), inOut.getGood().getId(),
-                    inOut.getUser().getId());
-
-            Good good = goodMapper.findById(inOut.getGood().getId());
-            goodMapper.updateStock(good.getStock() + inOut.getAmount(), good.getId());
-        }
+//        if (inOut.getBeInput() == InOut.INPUT) {
+//            inOutMapper.inGoodSave(inOut.getAmount(), inOut.getBeInput(),
+//                    System.currentTimeMillis(), inOut.getGood().getId(),
+//                    inOut.getUser().getId());
+//
+//            Good good = goodMapper.findById(inOut.getGood().getId());
+//            goodMapper.updateStock(good.getStock() + inOut.getAmount(), good.getId());
+//        }
     }
 
-    @Override
-    public List<InOut> findAllByIn() {
-        List<InOut> inOutList = inOutMapper.findAllByIn();
-        for (InOut inout : inOutList) {
-            inout.setGood(goodMapper.findById(inout.getGood().getId()));
-        }
-        return inOutList;
-    }
 
     @Override
-    public List<InOut> findAllByGoodId(Long goodId) {
-        List<InOut> inOutList = inOutMapper.findAllByGoodId(goodId);
+    public List<InOut> findAllByBeInputAndGoodId(Long goodId) {
+        List<InOut> inOutList = inOutMapper.findAllByBeInputAndGoodId(InOut.INPUT, goodId);
         for (InOut inout : inOutList) {
             inout.setGood(goodMapper.findById(inout.getGood().getId()));
         }

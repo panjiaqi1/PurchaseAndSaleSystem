@@ -11,12 +11,7 @@ public interface InOutService {
     void save(InOut inOut);
 
     /**
-     * 获取所有进货记录
-     */
-    List<InOut> findAllByIn();
-
-    /**
      * 通过货物获取所有进货记录
      */
-    List<InOut> findAllByGoodId(Long goodId);
+    List<InOut> findAllByBeInputAndGoodId(Long goodId);
 }

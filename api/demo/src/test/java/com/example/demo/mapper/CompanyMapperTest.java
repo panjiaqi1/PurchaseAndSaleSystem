@@ -12,8 +12,6 @@ class CompanyMapperTest {
 
     @Test
     public void save() {
-        Unit company = new Unit();
-        company.setName("1212");
-        this.companyMapper.add(company);
+
     }
 }
