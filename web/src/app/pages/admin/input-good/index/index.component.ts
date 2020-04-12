@@ -27,22 +27,7 @@ export class IndexComponent implements OnInit {
     this.queryForm = this.builder.group({
       goodId: null
     });
-    this.getAll();
-  }
-
-  public getAll() {
-    this.inputGoodService.getAll()
-      .subscribe((data: Array<InOut>) => {
-        this.inOuts = data;
-      }, () => {
-        console.log('error');
-      });
-  }
-
-  bindGood(good: Good) {
-    this.queryForm.patchValue({
-      goodId: good.id
-    });
+    this.query();
   }
 
   public query() {
@@ -54,4 +39,17 @@ export class IndexComponent implements OnInit {
       });
   }
 
+  bindGood(good: Good) {
+    if (good && good.id) {
+      // 合法，设置 collegeId
+      this.queryForm.patchValue({
+        goodId: good.id
+      });
+    } else {
+      // 不合法，置空
+      this.queryForm.patchValue({
+        goodId: null
+      });
+    }
+  }
 }

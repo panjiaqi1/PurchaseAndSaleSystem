@@ -17,14 +17,16 @@
         </association>
     </resultMap>
     <select id="findAllByGoodId" resultMap="inOutResultMap">
-    SELECT in_out.amount,
+        SELECT in_out.amount,
         in_out.create_time,
         in_out.id,
         in_out.good_id,
         in_out.user_id
-    FROM in_out LEFT OUTER JOIN good ON in_out.good_id = good.id
-    WHERE in_out.input_or_output = 1 and in_out.good_id = #{id,jdbcType=INTEGER};
-
+        FROM in_out LEFT OUTER JOIN good ON in_out.good_id = good.id
+        WHERE in_out.input_or_output = 1
+        <if test="id != null">
+            and in_out.good_id = #{id,jdbcType=INTEGER};
+        </if>
     </select>
 
     <select id="findAllByIn" resultMap="inOutResultMap">
