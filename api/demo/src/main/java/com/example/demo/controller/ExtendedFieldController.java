@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.ExtendedField;
-import com.example.demo.entity.Unit;
 import com.example.demo.service.ExtendedFieldService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +49,7 @@ public class ExtendedFieldController {
     }
 
     /**
-     * 通过Id获取单位
+     * 通过Id查询
      */
     @GetMapping("{id}")
     public ExtendedField findById(@PathVariable Long id) {
@@ -58,7 +57,7 @@ public class ExtendedFieldController {
     }
 
     /**
-     * 更新单位
+     * 更新
      */
     @PutMapping("{id}")
     public void update(@PathVariable Long id, @RequestBody ExtendedField extendedField) {

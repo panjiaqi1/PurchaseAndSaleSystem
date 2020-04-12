@@ -1,10 +1,7 @@
 package com.example.demo.controller;
-
 import com.example.demo.entity.InOut;
 import com.example.demo.service.InOutService;
-
 import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,7 +20,7 @@ public class InOutController {
     }
 
     /**
-     * 新增单位
+     * 新增
      */
     @PostMapping
     public void save(@RequestBody InOut inOut) {

@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.ExtendedField;
 import com.example.demo.entity.GoodExtendedField;
 import com.example.demo.service.GoodExtendedFieldService;
 import org.springframework.data.domain.Page;
@@ -8,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 扩展字段记录控制器
@@ -43,7 +40,7 @@ public class GoodExtendedFieldController {
     }
 
     /**
-     * 通过Id获取单位
+     * 通过Id查询
      */
     @GetMapping("{id}")
     public GoodExtendedField findById(@PathVariable Long id) {
@@ -51,7 +48,7 @@ public class GoodExtendedFieldController {
     }
 
     /**
-     * 更新单位
+     * 更新
      */
     @PutMapping("{id}")
     public void update(@PathVariable Long id, @RequestBody GoodExtendedField goodExtendedField) {

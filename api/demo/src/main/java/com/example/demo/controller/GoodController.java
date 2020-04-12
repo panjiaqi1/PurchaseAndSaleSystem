@@ -2,13 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Good;
 import com.example.demo.service.GoodService;
-
 import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 产品管理控制器
+ * 货物控制器
  *
  * @author panjiaqi
  */
@@ -39,7 +37,7 @@ public class GoodController {
     }
 
     /**
-     * 通过Id获取单位
+     * 通过Id查询
      */
     @GetMapping("{id}")
     public Good findById(@PathVariable Long id) {
@@ -47,7 +45,7 @@ public class GoodController {
     }
 
     /**
-     * 更新单位
+     * 更新
      */
     @PutMapping("{id}")
     public void update(@PathVariable Long id, @RequestBody Good good) {
