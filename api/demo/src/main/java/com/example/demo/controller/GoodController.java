@@ -1,14 +1,19 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Good;
+import com.example.demo.entity.GoodExtendedField;
 import com.example.demo.service.GoodService;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 产品管理控制器
+ * 货物控制器
  *
  * @author panjiaqi
  */
@@ -39,7 +44,7 @@ public class GoodController {
     }
 
     /**
-     * 通过Id获取单位
+     * 通过Id查询
      */
     @GetMapping("{id}")
     public Good findById(@PathVariable Long id) {
@@ -47,7 +52,7 @@ public class GoodController {
     }
 
     /**
-     * 更新单位
+     * 更新
      */
     @PutMapping("{id}")
     public void update(@PathVariable Long id, @RequestBody Good good) {
@@ -61,4 +66,14 @@ public class GoodController {
     public void delete(@PathVariable Long id) {
         goodService.delete(id);
     }
+
+    /**
+     * 分页并查询
+     */
+    @GetMapping("page")
+    public Page<Good> page(@RequestParam(required = false) String name,
+                           @SortDefault.SortDefaults(@SortDefault(sort = "id", direction = Sort.Direction.DESC)) Pageable pageable) {
+        return goodService.page(pageable, name);
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.ExtendedField;
 import com.example.demo.entity.GoodExtendedField;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;

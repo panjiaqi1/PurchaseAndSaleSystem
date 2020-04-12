@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { AppComponent } from '../../../../app.component';
 
 @Component({

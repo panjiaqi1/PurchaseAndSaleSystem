@@ -4,7 +4,7 @@ import com.example.demo.entity.Good;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * 产品仓库，用于自动创建数据表
+ * 货物仓库，用于自动创建数据表
  *
  * @author panjiaqi
  */

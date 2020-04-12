@@ -9,7 +9,7 @@ import javax.persistence.*;
  * @author panjiaqi
  */
 @Entity
-public class Good {
+public class Good implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,10 +56,12 @@ public class Good {
     public Good() {
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
