@@ -31,7 +31,7 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public List<Good> findAll() {
-        return goodMapper.findAll();
+        return goodMapper.findAll(null, null);
     }
 
     @Override
