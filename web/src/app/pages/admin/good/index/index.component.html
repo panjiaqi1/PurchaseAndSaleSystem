@@ -43,7 +43,7 @@
     <th scope="col">单位</th>
     <th scope="col">描述</th>
     <th scope="col">库存</th>
-    <th scope="col">扩展字段</th>
+    <th scope="col">扩展字段/值</th>
     <th scope="col">操作</th>
   </tr>
   </thead>
@@ -54,7 +54,9 @@
     <td>{{good.unit.name}}</td>
     <td>{{good.description}}</td>
     <td>{{good.stock}}</td>
-    <td></td>
+    <td>
+      <span *ngFor="let goodExtendedField of good.goodExtendedFieldList">{{goodExtendedField.extendedField.name}}&nbsp;/&nbsp;{{goodExtendedField.value}}<br/></span>
+    </td>
     <td>
       <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{good.id}}">
         <i class="fas fa-edit"></i>

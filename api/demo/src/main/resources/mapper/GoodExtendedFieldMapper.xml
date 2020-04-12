@@ -15,7 +15,8 @@
         </association>
     </resultMap>
 
-    <select id="findAll" resultMap="goodExtendedFieldResultMap" parameterType="org.springframework.data.domain.Pageable" resultType="GoodExtendedField">
+    <select id="findAll" resultMap="goodExtendedFieldResultMap" parameterType="org.springframework.data.domain.Pageable"
+            resultType="GoodExtendedField">
         SELECT good_extended_field.id,
         good_extended_field.`value`,
         good_extended_field.extended_field_id,
@@ -47,8 +48,17 @@
     FROM good_extended_field where id= #{id,jdbcType=INTEGER};
     </select>
 
+    <select id="findAllByGoodId" resultMap="goodExtendedFieldResultMap">
+        SELECT good_extended_field.good_id,
+            good_extended_field.extended_field_id,
+            good_extended_field.`value`,
+            good_extended_field.id
+        FROM good_extended_field where good_id = #{GoodId,jdbcType=INTEGER};
+    </select>
+
     <insert id="save" parameterType="com.example.demo.entity.GoodExtendedField">
         insert into good_extended_field (value, extended_field_id, good_id)
         values (#{value,jdbcType=VARCHAR},#{extendedFieldId,jdbcType=INTEGER},#{goodId,jdbcType=INTEGER})
     </insert>
+
 </mapper>

@@ -25,13 +25,13 @@ export class Good {
   inOutList: Array<InOut>;
 
   /** 扩展字段记录 */
-  extendedFieldList: Array<GoodExtendedField>;
+  goodExtendedFieldList: Array<GoodExtendedField>;
 
   constructor(data?: {
     id?: number, name?: string,
     description?: string, stock?: number,
     unit?: Unit, inOutList?: Array<InOut>,
-    extendedFieldList: Array<GoodExtendedField>
+    goodExtendedFieldList: Array<GoodExtendedField>
   }) {
     if (data) {
       if (data.id) {
@@ -58,8 +58,8 @@ export class Good {
         this.inOutList = data.inOutList;
       }
 
-      if (data.extendedFieldList) {
-        this.extendedFieldList = data.extendedFieldList;
+      if (data.goodExtendedFieldList) {
+        this.goodExtendedFieldList = data.goodExtendedFieldList;
       }
     }
   }

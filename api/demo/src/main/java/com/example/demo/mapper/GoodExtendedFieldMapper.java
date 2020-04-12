@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.GoodExtendedField;
+import java.util.List;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +26,10 @@ public interface GoodExtendedFieldMapper extends CrudMapper<GoodExtendedField, L
      */
     GoodExtendedField findById(@Param("id") Long id);
 
+    /**
+     * 通过GoodId查询
+     */
+    List<GoodExtendedField> findAllByGoodId(@Param("GoodId") Long GoodId);
 
     /**
      * 当前数据总条数

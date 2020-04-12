@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Good;
+import com.example.demo.entity.GoodExtendedField;
+import com.example.demo.mapper.ExtendedFieldMapper;
+import com.example.demo.mapper.GoodExtendedFieldMapper;
 import com.example.demo.mapper.UnitMapper;
 import com.example.demo.mapper.GoodMapper;
 import org.springframework.data.domain.Page;
@@ -15,10 +18,14 @@ public class GoodServiceImpl implements GoodService {
 
     private final GoodMapper goodMapper;
     private final UnitMapper unitMapper;
+    private final GoodExtendedFieldMapper goodExtendedFieldMapper;
+    private final ExtendedFieldMapper extendedFieldMapper;
 
-    public GoodServiceImpl(GoodMapper goodMapper, UnitMapper unitMapper) {
+    public GoodServiceImpl(GoodMapper goodMapper, UnitMapper unitMapper, GoodExtendedFieldMapper goodExtendedFieldMapper, ExtendedFieldMapper extendedFieldMapper) {
         this.goodMapper = goodMapper;
         this.unitMapper = unitMapper;
+        this.goodExtendedFieldMapper = goodExtendedFieldMapper;
+        this.extendedFieldMapper = extendedFieldMapper;
     }
 
     @Override
@@ -58,6 +65,14 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Page<Good> page(Pageable pageable, String name) {
-        return goodMapper.page(pageable, name);
+        Page<Good> goodPage = goodMapper.page(pageable, name);
+        for (Good good : goodPage.getContent()) {
+            List<GoodExtendedField> goodExtendedFieldList = goodExtendedFieldMapper.findAllByGoodId(good.getId());
+            good.setGoodExtendedFieldList(goodExtendedFieldList);
+            for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
+                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()));
+            }
+        }
+        return goodPage;
     }
 }
