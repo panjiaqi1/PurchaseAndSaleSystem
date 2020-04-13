@@ -24,7 +24,7 @@ public class ExtendedFieldServiceImpl implements ExtendedFieldService {
 
     @Override
     public ExtendedField findById(Long id) {
-        return extendedFieldMapper.findById(id);
+        return extendedFieldMapper.findById(id).get();
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.example.demo.controller;
+
 import com.example.demo.entity.InOut;
 import com.example.demo.service.InOutService;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,11 +31,32 @@ public class InOutController {
         inOutService.save(inOut);
     }
 
+
     /**
-     * 通过货物获取所有进货记录
+     * 通过Id查询
      */
-    @GetMapping("/query")
-    public List<InOut> findAllByBeInputAndGoodId(@RequestParam(required = false) Long goodId) {
-        return inOutService.findAllByBeInputAndGoodId(goodId);
+    @GetMapping("{id}")
+    public InOut findById(@PathVariable Long id) {
+        return inOutService.findById(id);
+    }
+
+    /**
+     * 更新
+     */
+    @PutMapping("{id}")
+    public void update(@PathVariable Long id, @RequestBody InOut inOut) {
+        inOutService.update(id, inOut);
+    }
+
+    /**
+     * 分页并查询
+     */
+    @GetMapping("page")
+    public Page<InOut> page(@RequestParam(required = false) Long goodId,
+                            @RequestParam(required = false) boolean beInput,
+                            @RequestParam(required = false) Long beginTime,
+                            @RequestParam(required = false) Long endTime,
+                            @SortDefault.SortDefaults(@SortDefault(sort = "id", direction = Sort.Direction.DESC)) Pageable pageable) {
+        return inOutService.page(pageable, goodId, beInput, beginTime, endTime);
     }
 }

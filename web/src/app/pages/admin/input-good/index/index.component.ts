@@ -4,6 +4,9 @@ import { AppComponent } from '../../../../app.component';
 import { InOut } from '../../../../common/in-out';
 import { InputGoodService } from '../../../../core/service/input-good.service';
 import { Good } from '../../../../common/good';
+import { config } from '../../../../conf/app.config';
+import { Page } from '../../../../base/page';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-index',
@@ -11,29 +14,65 @@ import { Good } from '../../../../common/good';
   styleUrls: ['./index.component.less']
 })
 export class IndexComponent implements OnInit {
+
+  /**
+   * 页码
+   */
+  page: number;
+
+  /**
+   * 每页大小
+   */
+  size: number;
+
   queryForm: FormGroup;
 
-  inOuts: Array<InOut>;
+  inOuts: Page<InOut>;
 
   constructor(private appComponent: AppComponent,
               private inputGoodService: InputGoodService,
-              private builder: FormBuilder) {
+              private builder: FormBuilder,
+              private datePipe: DatePipe) {
   }
 
   ngOnInit() {
+    this.page = 0;
+    this.size = config.size;
     this.queryForm = this.builder.group({
-      goodId: null
+      beInput: true,
+      goodId: null,
+      beginTime: null,
+      endTime: null
     });
-    this.query();
+    this.pageAll();
   }
 
-  public query() {
-    this.inputGoodService.findAllByGoodId(this.queryForm.getRawValue().goodId)
-      .subscribe((data: Array<InOut>) => {
+  public pageAll() {
+    this.inputGoodService.page(this.page, this.size, this.queryForm.getRawValue().goodId,
+      this.queryForm.getRawValue().beInput, this.queryForm.getRawValue().beginTime,
+      this.queryForm.getRawValue().endTime)
+      .subscribe((data: Page<InOut>) => {
         this.inOuts = data;
       }, () => {
         console.log('error');
       });
+  }
+
+
+  /**
+   * 重新加载数据 根据 size
+   */
+  public reloadBySize(size: number): void {
+    this.size = size;
+    this.pageAll();
+  }
+
+  /**
+   * 重新加载数据 根据 page
+   */
+  public reloadByPage(page: number): void {
+    this.page = page;
+    this.pageAll();
   }
 
   bindGood(good: Good) {

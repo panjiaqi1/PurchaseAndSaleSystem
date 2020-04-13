@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author panjiaqi
  */
 @Controller
-@RequestMapping("outputCargo")
+@RequestMapping("outputGood")
 public class OutGoodController {
 
     @GetMapping

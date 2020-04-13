@@ -2,41 +2,96 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.mapper.InOutMapper">
 
-    <resultMap id="inOutResultMap" type="com.example.demo.entity.InOut">
+    <resultMap id="resultMap" type="com.example.demo.entity.InOut">
         <id property="id" column="id"/>
         <result property="amount" column="amount"/>
-        <result property="inputOrOutput" column="inputOrOutput"/>
+        <result property="beInput" column="be_input"/>
         <result property="createTime" column="create_time"/>
         <association property="good" javaType="Good">
             <id property="id" column="good_id"/>
-            <result property="name" column="p_name"/>
+            <result property="name" column="good.name"/>
         </association>
         <association property="user" javaType="User">
             <id property="id" column="user_id"/>
             <result property="name" column="u_name"/>
         </association>
     </resultMap>
-    <select id="findAllByBeInputAndGoodId" resultMap="inOutResultMap">
-        SELECT in_out.amount,
-        in_out.create_time,
-        in_out.id,
-        in_out.good_id,
-        in_out.user_id
-        FROM in_out LEFT OUTER JOIN good ON in_out.good_id = good.id
-        WHERE in_out.input_or_output =
-        <if test="inPut">
-            0
+
+    <sql id="columns">
+        in_out.id, in_out.amount, in_out.be_input,in_out.create_time,
+        in_out.good_id,in_out.user_id
+
+    </sql>
+    <sql id="joinTable">
+        in_out
+        LEFT OUTER JOIN good ON in_out.good_id = good.id
+	    LEFT OUTER JOIN `user` ON in_out.user_id = `user`.id
+    </sql>
+
+    <sql id="where">
+        <if test="queryParams != null">
+            <where>
+                <foreach collection="queryParams" item="queryParam" index="index">
+                    <if test="queryParam != null">
+                        <choose>
+                            <when test="queryParam.queryType == 'eq'">
+                                AND ${queryParam.key} = ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'true'">
+                                AND ${queryParam.key} = true
+                            </when>
+                            <when test="queryParam.queryType == 'false'">
+                                AND ${queryParam.key} = false
+                            </when>
+                            <when test="queryParam.queryType == 'before'">
+                                AND ${queryParam.key} &lt; ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'after'">
+                                AND ${queryParam.key} &gt; ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'trueOrFalse'">
+                                AND ${queryParam.key} = ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'containing'">
+                                AND ${queryParam.key} like '%${queryParam.value}%'
+                            </when>
+                        </choose>
+                    </if>
+                </foreach>
+            </where>
         </if>
-        <if test="!inPut">
-            1
+    </sql>
+
+    <sql id="page">
+        <if test="pageable != null">
+            <bind name="size" value="pageable.getPageSize()"/>
+            <if test="pageable.sort != null">
+                <foreach collection="pageable.sort" item="sort" index="index">
+                    <if test="index == 0">
+                        order by
+                    </if>
+                    <if test="index > 0">
+                        ,
+                    </if>
+                    ${sort.property} ${sort.direction.name}
+                </foreach>
+            </if>
+            limit ${pageable.offset} , ${size}
         </if>
-        <if test="id != null">
-            and in_out.good_id = #{id,jdbcType=INTEGER};
-        </if>
+    </sql>
+
+    <select id="count" parameterType="org.springframework.data.domain.Pageable" resultType="long">
+        select count(*) from
+        <include refid="joinTable"></include>
+        <include refid="where"></include>
     </select>
 
-    <insert id="inGoodSave" parameterType="com.example.demo.entity.InOut">
-        insert into in_out (amount, input_or_output, create_time, good_id, user_id)
-        values (#{amount,jdbcType=INTEGER},#{inputOrOutput,jdbcType=INTEGER},#{createTime,jdbcType=INTEGER},#{goodId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER})
-    </insert>
+    <select id="findAll" parameterType="org.springframework.data.domain.Pageable" resultMap="resultMap">
+        select
+        <include refid="columns"></include>
+        from
+        <include refid="joinTable"></include>
+        <include refid="where"></include>
+        <include refid="page"></include>
+    </select>
 </mapper>

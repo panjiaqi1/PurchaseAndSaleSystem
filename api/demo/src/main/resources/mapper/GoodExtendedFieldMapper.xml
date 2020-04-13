@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.mapper.GoodExtendedFieldMapper">
 
-    <resultMap id="goodExtendedFieldResultMap" type="com.example.demo.entity.GoodExtendedField">
+    <resultMap id="resultMap" type="com.example.demo.entity.GoodExtendedField">
         <id property="id" column="id"/>
         <result property="value" column="value"/>
         <association property="good" javaType="Good">
@@ -15,15 +15,50 @@
         </association>
     </resultMap>
 
-    <select id="findAll" resultMap="goodExtendedFieldResultMap" parameterType="org.springframework.data.domain.Pageable"
-            resultType="GoodExtendedField">
-        SELECT good_extended_field.id,
-        good_extended_field.`value`,
-        good_extended_field.extended_field_id,
-        good_extended_field.good_id
-        FROM good_extended_field
-        <if test="pageable != null">
+    <sql id="columns">
+        good_extended_field.id, good_extended_field.`value`,
+        good_extended_field.extended_field_id,good_extended_field.good_id
+    </sql>
+    <sql id="joinTable">
+        good_extended_field
+    </sql>
 
+    <sql id="where">
+        <if test="queryParams != null">
+            <where>
+                <foreach collection="queryParams" item="queryParam" index="index">
+                    <if test="queryParam != null">
+                        <choose>
+                            <when test="queryParam.queryType == 'eq'">
+                                AND ${queryParam.key} = ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'true'">
+                                AND ${queryParam.key} = true
+                            </when>
+                            <when test="queryParam.queryType == 'false'">
+                                AND ${queryParam.key} = false
+                            </when>
+                            <when test="queryParam.queryType == 'before'">
+                                AND ${queryParam.key} &lt; ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'after'">
+                                AND ${queryParam.key} &gt; ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'trueOrFalse'">
+                                AND ${queryParam.key}  =  ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'containing'">
+                                AND ${queryParam.key}  like '%${queryParam.value}%'
+                            </when>
+                        </choose>
+                    </if>
+                </foreach>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="page">
+        <if test="pageable != null">
             <bind name="size" value="pageable.getPageSize()"/>
             <if test="pageable.sort != null">
                 <foreach collection="pageable.sort" item="sort" index="index">
@@ -36,29 +71,22 @@
                     ${sort.property} ${sort.direction.name}
                 </foreach>
             </if>
-            limit #{pageable.offset} , ${size}
+            limit ${pageable.offset} , ${size}
         </if>
+    </sql>
+
+    <select id="count"  parameterType="org.springframework.data.domain.Pageable" resultType="long">
+        select count(*) from
+        <include refid="joinTable"></include>
+        <include refid="where"></include>
     </select>
 
-    <select id="findById" resultMap="goodExtendedFieldResultMap">
-    SELECT good_extended_field.id,
-        good_extended_field.`value`,
-        good_extended_field.extended_field_id,
-        good_extended_field.good_id
-    FROM good_extended_field where id= #{id,jdbcType=INTEGER};
+    <select id="findAll" parameterType="org.springframework.data.domain.Pageable" resultMap="resultMap">
+        select
+        <include refid="columns"></include>
+        from
+        <include refid="joinTable"></include>
+        <include refid="where"></include>
+        <include refid="page"></include>
     </select>
-
-    <select id="findAllByGoodId" resultMap="goodExtendedFieldResultMap">
-        SELECT good_extended_field.good_id,
-            good_extended_field.extended_field_id,
-            good_extended_field.`value`,
-            good_extended_field.id
-        FROM good_extended_field where good_id = #{GoodId,jdbcType=INTEGER};
-    </select>
-
-    <insert id="save" parameterType="com.example.demo.entity.GoodExtendedField">
-        insert into good_extended_field (value, extended_field_id, good_id)
-        values (#{value,jdbcType=VARCHAR},#{extendedFieldId,jdbcType=INTEGER},#{goodId,jdbcType=INTEGER})
-    </insert>
-
 </mapper>

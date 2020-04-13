@@ -2,15 +2,14 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Good;
 import com.example.demo.entity.GoodExtendedField;
-import com.example.demo.mapper.ExtendedFieldMapper;
-import com.example.demo.mapper.GoodExtendedFieldMapper;
-import com.example.demo.mapper.UnitMapper;
-import com.example.demo.mapper.GoodMapper;
+import com.example.demo.mapper.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -33,17 +32,17 @@ public class GoodServiceImpl implements GoodService {
         Assert.notNull(good, "null");
         Assert.notNull(good.getUnit(), "null");
         Assert.notNull(good.getUnit().getId(), "null");
-        goodMapper.save(good.getName(), good.getDescription(), good.getUnit().getId());
+        goodMapper.save(good);
     }
 
     @Override
     public List<Good> findAll() {
-        return goodMapper.findAll(null, null);
+        return goodMapper.findAll();
     }
 
     @Override
     public void update(Long id, Good good) {
-        Good oldGood = goodMapper.findById(id);
+        Good oldGood = goodMapper.findById(id).get();
         oldGood.setName(good.getName());
         oldGood.setDescription(good.getDescription());
         oldGood.setUnit(good.getUnit());
@@ -53,8 +52,8 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Good findById(Long id) {
-        Good good = goodMapper.findById(id);
-        good.setUnit(unitMapper.findById(good.getUnit().getId()));
+        Good good = goodMapper.findById(id).get();
+        good.setUnit(unitMapper.findById(good.getUnit().getId()).get());
         return good;
     }
 
@@ -65,12 +64,25 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Page<Good> page(Pageable pageable, String name) {
-        Page<Good> goodPage = goodMapper.page(pageable, name);
+        // 构造查询参数
+        List<QueryParam> queryParams = new ArrayList<>();
+        // 判断是否出入name
+        if (name != null) {
+            QueryParam goodIdQueryParam = new QueryParam("good.name", name, QueryType.CONTAINING);
+            queryParams.add(goodIdQueryParam);
+        }
+
+        Page<Good> goodPage = goodMapper.page(queryParams, pageable);
         for (Good good : goodPage.getContent()) {
-            List<GoodExtendedField> goodExtendedFieldList = goodExtendedFieldMapper.findAllByGoodId(good.getId());
+            // 构造查询参数并通过goodId查询
+            List<GoodExtendedField> goodExtendedFieldList = goodExtendedFieldMapper.findAll(new ArrayList<>(
+                    Arrays.asList(new QueryParam("good_id", good.getId().toString()))));
+            // 获取扩展字段记录
             good.setGoodExtendedFieldList(goodExtendedFieldList);
+
+            // 获取扩展字段
             for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
-                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()));
+                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).get());
             }
         }
         return goodPage;

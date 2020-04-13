@@ -12,23 +12,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ExtendedFieldMapper extends CrudMapper<ExtendedField, Long> {
-    /**
-     * 通过Id查询
-     *
-     * @param id 扩展字段Id
-     * @return ExtendedField
-     */
-    ExtendedField findById(@Param("id") Long id);
-
-
-    /**
-     * 当前数据总条数
-     *
-     * @return 总数
-     */
-    @Override
-    @Select("select count(*) from extended_field")
-    long count();
 
     /**
      * 删除
@@ -40,10 +23,7 @@ public interface ExtendedFieldMapper extends CrudMapper<ExtendedField, Long> {
     boolean delete(@Param("id") Long id);
 
     /**
-     * 插入新数据，并返回主键值
-     *
-     * @param extendedField 实体
-     * @return 主键值
+     * 插入新数据
      */
     @Override
     @Insert("INSERT INTO extended_field (name) VALUES (#{extendedField.name})")

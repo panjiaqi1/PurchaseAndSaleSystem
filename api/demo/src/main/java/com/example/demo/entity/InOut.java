@@ -8,7 +8,7 @@ import javax.persistence.*;
  * @author panjiaqi
  */
 @Entity
-public class InOut {
+public class InOut implements BaseEntity<Long>{
     /**
      * 进货
      */
@@ -42,12 +42,6 @@ public class InOut {
     private Boolean beInput = InOut.INPUT;
 
     /**
-     * 是否被删除,用于软删除
-     */
-    @Column(nullable = false)
-    private Boolean deleted = false;
-
-    /**
      * 货物
      */
     @ManyToOne
@@ -62,10 +56,12 @@ public class InOut {
     public InOut() {
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -92,14 +88,6 @@ public class InOut {
 
     public void setBeInput(Boolean beInput) {
         this.beInput = beInput;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Good getGood() {

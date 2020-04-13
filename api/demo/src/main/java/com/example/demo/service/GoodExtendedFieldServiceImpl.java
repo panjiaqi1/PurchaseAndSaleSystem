@@ -30,7 +30,7 @@ public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
 
     @Override
     public GoodExtendedField findById(Long id) {
-        return goodExtendedFieldMapper.findById(id);
+        return goodExtendedFieldMapper.findById(id).get();
     }
 
     @Override
@@ -38,16 +38,15 @@ public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
         Assert.notNull(goodExtendedField, "扩展字段记录不能为空");
         Assert.notNull(goodExtendedField.getGood().getId(), "扩展字段记录中货物Id不能为空");
         Assert.notNull(goodExtendedField.getExtendedField().getId(), "扩展字段记录中扩展字段Id不能为空");
-        goodExtendedFieldMapper.save(goodExtendedField.getValue(), goodExtendedField.getGood().getId(), goodExtendedField.getExtendedField().getId());
+        goodExtendedFieldMapper.save(goodExtendedField);
     }
 
     @Override
     public Page<GoodExtendedField> page(Pageable pageable) {
         Page<GoodExtendedField> goodExtendedFieldPage = goodExtendedFieldMapper.page(pageable);
         for (GoodExtendedField goodExtendedField : goodExtendedFieldPage.getContent()) {
-
-            goodExtendedField.setGood(goodMapper.findById(goodExtendedField.getGood().getId()));
-            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()));
+            goodExtendedField.setGood(goodMapper.findById(goodExtendedField.getGood().getId()).get());
+            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).get());
         }
         return goodExtendedFieldPage;
     }

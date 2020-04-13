@@ -48,11 +48,6 @@ public class Good implements BaseEntity<Long> {
     @OneToMany(mappedBy = "good")
     private List<GoodExtendedField> goodExtendedFieldList;
 
-    /**
-     * 是否被删除,用于软删除
-     */
-    private Boolean deleted = false;
-
     public Good() {
     }
 
@@ -112,13 +107,5 @@ public class Good implements BaseEntity<Long> {
 
     public void setGoodExtendedFieldList(List<GoodExtendedField> goodExtendedFieldList) {
         this.goodExtendedFieldList = goodExtendedFieldList;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 }
