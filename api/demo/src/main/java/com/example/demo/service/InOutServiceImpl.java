@@ -31,6 +31,11 @@ public class InOutServiceImpl implements InOutService {
             inOutMapper.save(inOut);
             this.updateStock(inOut.getGood().getId(), inOut);
         } else {
+            Good good = goodMapper.findById(inOut.getGood().getId()).orElseThrow(() -> new EntityNotFoundException("未找到"));
+            if (good.getStock() < inOut.getAmount()) {
+                throw new RuntimeException("库存不足");
+            }
+
             inOut.setAmount(inOut.getAmount() * (-1));
             inOutMapper.save(inOut);
             this.updateStock(inOut.getGood().getId(), inOut);

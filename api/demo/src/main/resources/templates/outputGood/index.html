@@ -23,7 +23,7 @@
         <tr th:each="inout, custStat : ${inOuts}">
             <td th:text="${custStat.count}"></td>
             <td th:text="${inout.good.name}"></td>
-            <td th:text="${inout.amount}"></td>
+            <td th:text="${inout.amount * (-1)}"></td>
             <td th:text="${inout.good.unit.name}"></td>
             <td th:text="${#dates.format(inout.createTime, 'yyyy/MM/dd hh:mm:ss')}"></td>
         </tr>

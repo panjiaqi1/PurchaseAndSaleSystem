@@ -55,7 +55,6 @@ public class OutGoodController {
      */
     @RequestMapping("/save")
     public String save(@ModelAttribute InOut inOut) {
-
         inOut.setBeInput(InOut.OUTPUT);
         inOutService.save(inOut);
         return "redirect:/outputGood";
