@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { IndexComponent } from './index/index.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
@@ -14,7 +14,8 @@ import { InputGoodRoutingModule } from './input-good-routing.module';
     InputGoodRoutingModule,
     FuncModule,
     ReactiveFormsModule,
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class InputGoodModule {
 }

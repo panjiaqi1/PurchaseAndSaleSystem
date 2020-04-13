@@ -1,9 +1,9 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.GoodExtendedField;
-import java.util.List;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
 
 /**
  * 扩展字段记录仓库，对应 GoodExtendedFieldMapper.xml
@@ -13,24 +13,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface GoodExtendedFieldMapper extends CrudMapper<GoodExtendedField, Long> {
-    /**
-     * 保存
-     */
-    void save(@Param("value") String value, @Param("goodId") Long goodId, @Param("extendedFieldId") Long extendedFieldId);
-
-    /**
-     * 通过GoodId查询
-     */
-    List<GoodExtendedField> findAllByGoodId(@Param("GoodId") Long GoodId);
-
-    /**
-     * 当前数据总条数
-     *
-     * @return 总数
-     */
-    @Override
-    @Select("select count(*) from good_extended_field")
-    long count();
 
     /**
      * 删除
@@ -42,13 +24,12 @@ public interface GoodExtendedFieldMapper extends CrudMapper<GoodExtendedField, L
     boolean delete(@Param("id") Long id);
 
     /**
-     * 插入新数据，并返回主键值
-     *
-     * @param goodExtendedField 实体
-     * @return 主键值
+     * 插入新数据
      */
     @Override
-    @Insert("INSERT INTO good_extended_field (value) VALUES (#{goodExtendedField.value})")
+    @Insert("INSERT INTO good_extended_field (value, extended_field_id, good_id) " +
+            "VALUES (#{goodExtendedField.value},#{goodExtendedField.extendedField.id}," +
+            "#{goodExtendedField.good.id})")
     @SelectKey(statement = "select last_insert_id()", keyProperty = "goodExtendedField.id", before = false, resultType = long.class)
     void insert(@Param("goodExtendedField") GoodExtendedField goodExtendedField);
 

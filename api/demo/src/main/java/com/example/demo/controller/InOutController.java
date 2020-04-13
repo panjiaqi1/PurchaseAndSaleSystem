@@ -1,11 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
 import com.example.demo.service.InOutService;
-
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -58,7 +54,9 @@ public class InOutController {
     @GetMapping("page")
     public Page<InOut> page(@RequestParam(required = false) Long goodId,
                             @RequestParam(required = false) boolean beInput,
+                            @RequestParam(required = false) Long beginTime,
+                            @RequestParam(required = false) Long endTime,
                             @SortDefault.SortDefaults(@SortDefault(sort = "id", direction = Sort.Direction.DESC)) Pageable pageable) {
-        return inOutService.page(pageable, goodId, beInput);
+        return inOutService.page(pageable, goodId, beInput, beginTime, endTime);
     }
 }

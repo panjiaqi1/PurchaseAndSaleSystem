@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -53,8 +52,13 @@ public interface CrudMapper<T extends BaseEntity, D> {
      * @return 实体
      */
     default Optional<T> findById(@Param("id") D id) {
+        return this.findById(id, "id");
+    }
+
+
+    default Optional<T> findById(@Param("id") D id, String fieldName) {
         List<T> lists = this.findAll(Arrays.asList(
-                new QueryParam("id", id.toString())));
+                new QueryParam(fieldName, id.toString())));
 
         if (lists.size() > 0) {
             return Optional.of(lists.get(0));
@@ -64,10 +68,10 @@ public interface CrudMapper<T extends BaseEntity, D> {
     }
 
     /**
-     * 插入新数据，并返回主键值
+     * 插入新数据
      *
      * @param entity 实体
-     * @return
+     *
      */
     void insert(T entity);
 

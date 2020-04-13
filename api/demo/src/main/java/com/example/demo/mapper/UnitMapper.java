@@ -25,10 +25,7 @@ public interface UnitMapper extends CrudMapper<Unit, Long> {
     boolean delete(@Param("id") Long id);
 
     /**
-     * 插入新数据，并返回主键值
-     *
-     * @param unit 实体
-     * @return 主键值
+     * 插入新数据
      */
     @Override
     @Insert("INSERT INTO unit (name) VALUES (#{unit.name})")

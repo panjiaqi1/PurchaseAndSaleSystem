@@ -53,7 +53,7 @@
                                 AND ${queryParam.key} = ${queryParam.value}
                             </when>
                             <when test="queryParam.queryType == 'containing'">
-                                AND ${queryParam.key} like %${queryParam.value}%
+                                AND ${queryParam.key} like '%${queryParam.value}%'
                             </when>
                         </choose>
                     </if>

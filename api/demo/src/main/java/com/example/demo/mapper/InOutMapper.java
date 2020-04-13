@@ -1,14 +1,10 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
 import org.apache.ibatis.annotations.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
 
 /**
  * 进出库仓库，对应 InOutMapper.xml
@@ -18,14 +14,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface InOutMapper extends CrudMapper<InOut, Long> {
-    /**
-     * 保存
-     */
-    void save(@Param("amount") Integer amount, @Param("beInput") boolean beInput,
-              @Param("createTime") Long createTime, @Param("goodId") Long goodId, @Param("userId") Long userId);
-
-
-
 
     /**
      * 更新
@@ -39,7 +27,7 @@ public interface InOutMapper extends CrudMapper<InOut, Long> {
     boolean update(@Param("inOut") InOut inOut);
 
     @Override
-    @Insert("INSERT INTO in_out (amount, create_time, deleted, good_id, be_input) VALUES (#{inOut.amount}, #{inOut.createTime}, false, #{inOut.good.id}, #{inOut.beInput})")
+    @Insert("INSERT INTO in_out (amount, create_time, good_id, be_input) VALUES (#{inOut.amount}, #{inOut.createTime}, #{inOut.good.id}, #{inOut.beInput})")
     @SelectKey(statement = "select last_insert_id()", keyProperty = "inOut.id", before = false, resultType = long.class)
     void insert(@Param("inOut") InOut inOut);
 }

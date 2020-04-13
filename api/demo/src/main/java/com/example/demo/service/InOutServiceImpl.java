@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -28,17 +27,14 @@ public class InOutServiceImpl implements InOutService {
     @Override
     public void save(InOut inOut) {
         if (inOut.getBeInput()) {
-            inOutMapper.save(inOut.getAmount(), InOut.INPUT,
-                    System.currentTimeMillis(), inOut.getGood().getId(),
-                    inOut.getUser().getId());
+            inOutMapper.save(inOut);
 
             Good good = goodMapper.findById(inOut.getGood().getId()).get();
             good.setStock(good.getStock() + inOut.getAmount());
             goodMapper.save(good);
         } else {
-            inOutMapper.save(inOut.getAmount() * (-1), InOut.OUTPUT,
-                    System.currentTimeMillis(), inOut.getGood().getId(),
-                    inOut.getUser().getId());
+            inOut.setAmount(inOut.getAmount() * (-1));
+            inOutMapper.save(inOut);
 
             Good good = goodMapper.findById(inOut.getGood().getId()).get();
             good.setStock(good.getStock() + inOut.getAmount() * (-1));
@@ -60,14 +56,30 @@ public class InOutServiceImpl implements InOutService {
     }
 
     @Override
-    public Page<InOut> page(Pageable pageable, Long goodId, boolean beInput) {
+    public Page<InOut> page(Pageable pageable, Long goodId, boolean beInput, Long beginTime, Long endTime) {
+
+        // 构造查询参数
         List<QueryParam> queryParams = new ArrayList<>();
 
+        // 判断是否传入货物Id，传入按货物查询
         if (goodId != null) {
-            QueryParam goodIdQueryParam = new QueryParam("good_id", goodId.toString());
+            QueryParam goodIdQueryParam = new QueryParam("in_out.good_id", goodId.toString());
             queryParams.add(goodIdQueryParam);
         }
 
+        // 判断是否传入开始时间，传入按开始时间查询
+        if (beginTime != null) {
+            QueryParam goodIdQueryParam = new QueryParam("in_out.create_time", beginTime.toString(), QueryType.GREATER_THAN);
+            queryParams.add(goodIdQueryParam);
+        }
+
+        // 判断是否传入结束时间，传入按结束时间查询
+        if (endTime != null) {
+            QueryParam goodIdQueryParam = new QueryParam("in_out.create_time", endTime.toString(), QueryType.LESS_THAN);
+            queryParams.add(goodIdQueryParam);
+        }
+
+        // 按出/入库查询
         QueryParam beInputQueryParam = new QueryParam("be_input", beInput ? "1" : "0", QueryType.TRUE_OR_FALSE);
         queryParams.add(beInputQueryParam);
 

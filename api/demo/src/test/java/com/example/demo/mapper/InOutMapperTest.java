@@ -90,7 +90,5 @@ class InOutMapperTest {
         queryParams.remove(goodIdQueryParam);
         Assertions.assertEquals(this.inOutMapper.findAll(queryParams).size(), 1);
         Assertions.assertEquals(this.inOutMapper.page(queryParams, pageable).getTotalElements(), 1);
-
-        // 其它条件请自行尝试
     }
 }

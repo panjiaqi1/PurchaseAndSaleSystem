@@ -42,11 +42,6 @@ public class InOut implements BaseEntity<Long>{
     private Boolean beInput = InOut.INPUT;
 
     /**
-     * 是否被删除,用于软删除
-     */
-    private Boolean deleted = false;
-
-    /**
      * 货物
      */
     @ManyToOne
@@ -93,14 +88,6 @@ public class InOut implements BaseEntity<Long>{
 
     public void setBeInput(Boolean beInput) {
         this.beInput = beInput;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Good getGood() {

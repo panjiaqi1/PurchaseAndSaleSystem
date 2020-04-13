@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.mapper.GoodMapper">
 
-    <resultMap id="goodResultMap" type="com.example.demo.entity.Good">
+    <resultMap id="resultMap" type="com.example.demo.entity.Good">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="description" column="description"/>
@@ -13,20 +13,51 @@
         </association>
     </resultMap>
 
-    <select id="findAll" resultMap="goodResultMap" parameterType="org.springframework.data.domain.Pageable"
-            resultType="Good">
-        SELECT good.id,
-            good.description,
-            good.`name`,
-            good.stock,
-            good.unit_id AS c_id,
-            unit.`name` AS c_name
-        FROM good LEFT OUTER JOIN unit ON good.unit_id = unit.id
-        <where>
-            <if test="name != null ">
-                good.`name` like "%"#{name,jdbcType=VARCHAR}"%"
-            </if>
-        </where>
+    <sql id="columns">
+        good.id, good.description, good.`name`,good.stock,
+        good.unit_id AS c_id, unit.`name` AS c_name
+
+    </sql>
+    <sql id="joinTable">
+        good
+        LEFT OUTER JOIN unit ON good.unit_id = unit.id
+    </sql>
+
+    <sql id="where">
+        <if test="queryParams != null">
+            <where>
+                <foreach collection="queryParams" item="queryParam" index="index">
+                    <if test="queryParam != null">
+                        <choose>
+                            <when test="queryParam.queryType == 'eq'">
+                                AND ${queryParam.key} = ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'true'">
+                                AND ${queryParam.key} = true
+                            </when>
+                            <when test="queryParam.queryType == 'false'">
+                                AND ${queryParam.key} = false
+                            </when>
+                            <when test="queryParam.queryType == 'before'">
+                                AND ${queryParam.key} &lt; ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'after'">
+                                AND ${queryParam.key} &gt; ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'trueOrFalse'">
+                                AND ${queryParam.key} = ${queryParam.value}
+                            </when>
+                            <when test="queryParam.queryType == 'containing'">
+                                AND ${queryParam.key} like '%${queryParam.value}%'
+                            </when>
+                        </choose>
+                    </if>
+                </foreach>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="page">
         <if test="pageable != null">
             <bind name="size" value="pageable.getPageSize()"/>
             <if test="pageable.sort != null">
@@ -40,21 +71,24 @@
                     ${sort.property} ${sort.direction.name}
                 </foreach>
             </if>
-            limit #{pageable.offset} , ${size}
+            limit ${pageable.offset} , ${size}
         </if>
+    </sql>
+
+    <select id="count" parameterType="org.springframework.data.domain.Pageable" resultType="long">
+        select count(*) from
+        <include refid="joinTable"></include>
+        <include refid="where"></include>
     </select>
 
-    <select id="findById" resultMap="goodResultMap">
-        SELECT good.id,
-            good.description,
-            good.`name`,
-            good.stock,
-            good.unit_id AS c_id,
-            unit.`name` AS c_name
-        FROM good LEFT OUTER JOIN unit ON good.unit_id = unit.id
-        WHERE good.id = #{id,jdbcType=INTEGER};
+    <select id="findAll" parameterType="org.springframework.data.domain.Pageable" resultMap="resultMap">
+        select
+        <include refid="columns"></include>
+        from
+        <include refid="joinTable"></include>
+        <include refid="where"></include>
+        <include refid="page"></include>
     </select>
-
 
     <insert id="save" parameterType="com.example.demo.entity.Good">
         insert into good (name, description, unit_id)

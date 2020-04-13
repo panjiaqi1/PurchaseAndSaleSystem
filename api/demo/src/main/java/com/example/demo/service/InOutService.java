@@ -23,6 +23,6 @@ public interface InOutService {
     /**
      * 分页
      */
-    Page<InOut> page(Pageable pageable, Long goodId, boolean beInput);
+    Page<InOut> page(Pageable pageable, Long goodId, boolean beInput, Long beginTime, Long endTime);
 
 }

@@ -6,6 +6,7 @@ import { InputGoodService } from '../../../../core/service/input-good.service';
 import { Good } from '../../../../common/good';
 import { config } from '../../../../conf/app.config';
 import { Page } from '../../../../base/page';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-index',
@@ -30,7 +31,8 @@ export class IndexComponent implements OnInit {
 
   constructor(private appComponent: AppComponent,
               private inputGoodService: InputGoodService,
-              private builder: FormBuilder) {
+              private builder: FormBuilder,
+              private datePipe: DatePipe) {
   }
 
   ngOnInit() {
@@ -38,14 +40,17 @@ export class IndexComponent implements OnInit {
     this.size = config.size;
     this.queryForm = this.builder.group({
       beInput: true,
-      goodId: null
+      goodId: null,
+      beginTime: null,
+      endTime: null
     });
     this.pageAll();
   }
 
   public pageAll() {
     this.inputGoodService.page(this.page, this.size, this.queryForm.getRawValue().goodId,
-      this.queryForm.getRawValue().beInput)
+      this.queryForm.getRawValue().beInput, this.queryForm.getRawValue().beginTime,
+      this.queryForm.getRawValue().endTime)
       .subscribe((data: Page<InOut>) => {
         this.inOuts = data;
       }, () => {

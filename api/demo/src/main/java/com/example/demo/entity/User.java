@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 /**
@@ -30,22 +28,6 @@ public class User {
      * 姓名
      */
     private String name;
-
-    /**
-     * 角色
-     */
-    private int role;
-
-    /**
-     * 菜单
-     */
-    @OneToMany(mappedBy = "user")
-    private List<Menu> menuList;
-
-    /**
-     * 是否被删除,用于软删除
-     */
-    private Boolean deleted = false;
 
     public User() {
     }
@@ -80,29 +62,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Menu> getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
     }
 }
