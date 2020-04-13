@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.persistence.EntityNotFoundException;
+
 
 @Service
 public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
@@ -30,7 +32,7 @@ public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
 
     @Override
     public GoodExtendedField findById(Long id) {
-        return goodExtendedFieldMapper.findById(id).get();
+        return goodExtendedFieldMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
     }
 
     @Override
@@ -45,8 +47,8 @@ public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
     public Page<GoodExtendedField> page(Pageable pageable) {
         Page<GoodExtendedField> goodExtendedFieldPage = goodExtendedFieldMapper.page(pageable);
         for (GoodExtendedField goodExtendedField : goodExtendedFieldPage.getContent()) {
-            goodExtendedField.setGood(goodMapper.findById(goodExtendedField.getGood().getId()).get());
-            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).get());
+            goodExtendedField.setGood(goodMapper.findById(goodExtendedField.getGood().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
+            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
         }
         return goodExtendedFieldPage;
     }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -24,7 +25,7 @@ public class ExtendedFieldServiceImpl implements ExtendedFieldService {
 
     @Override
     public ExtendedField findById(Long id) {
-        return extendedFieldMapper.findById(id).get();
+        return extendedFieldMapper.findById(id).orElseThrow(()->new EntityNotFoundException("未找到"));
     }
 
     @Override

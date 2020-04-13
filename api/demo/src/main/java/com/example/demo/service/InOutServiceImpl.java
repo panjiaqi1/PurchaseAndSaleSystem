@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +29,21 @@ public class InOutServiceImpl implements InOutService {
     public void save(InOut inOut) {
         if (inOut.getBeInput()) {
             inOutMapper.save(inOut);
-
-            Good good = goodMapper.findById(inOut.getGood().getId()).get();
-            good.setStock(good.getStock() + inOut.getAmount());
-            goodMapper.save(good);
+            this.updateStock(inOut.getGood().getId(), inOut);
         } else {
             inOut.setAmount(inOut.getAmount() * (-1));
             inOutMapper.save(inOut);
-
-            Good good = goodMapper.findById(inOut.getGood().getId()).get();
-            good.setStock(good.getStock() + inOut.getAmount() * (-1));
-            goodMapper.save(good);
+            this.updateStock(inOut.getGood().getId(), inOut);
         }
+    }
+
+    /**
+     * 更新库存
+     */
+    private void updateStock(Long id, InOut inOut) {
+        Good good = goodMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
+        good.setStock(inOut.getAmount() + good.getStock());
+        goodMapper.save(good);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class InOutServiceImpl implements InOutService {
 
     @Override
     public void update(Long id, InOut inOut) {
-        InOut oldInOut = inOutMapper.findById(id).get();
+        InOut oldInOut = inOutMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
         oldInOut.setAmount(inOut.getAmount());
         oldInOut.setGood(inOut.getGood());
         inOutMapper.save(oldInOut);
@@ -79,14 +83,29 @@ public class InOutServiceImpl implements InOutService {
             queryParams.add(goodIdQueryParam);
         }
 
-        // 按出/入库查询
+        // 按入库查询
         QueryParam beInputQueryParam = new QueryParam("be_input", beInput ? "1" : "0", QueryType.TRUE_OR_FALSE);
         queryParams.add(beInputQueryParam);
 
         Page<InOut> inOutPage = inOutMapper.page(queryParams, pageable);
         for (InOut inout : inOutPage.getContent()) {
-            inout.setGood(goodMapper.findById(inout.getGood().getId()).get());
+            inout.setGood(goodMapper.findById(inout.getGood().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
         }
         return inOutPage;
+    }
+
+    @Override
+    public List<InOut> findAll(boolean output) {
+        // 构造查询参数
+        List<QueryParam> queryParams = new ArrayList<>();
+
+        // 按出库查询
+        QueryParam beInputQueryParam = new QueryParam("be_input", output ? "1" : "0", QueryType.TRUE_OR_FALSE);
+        queryParams.add(beInputQueryParam);
+        List<InOut> inOuts = inOutMapper.findAll(queryParams);
+        for (InOut inout : inOuts) {
+            inout.setGood(goodMapper.findById(inout.getGood().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
+        }
+        return inOuts;
     }
 }

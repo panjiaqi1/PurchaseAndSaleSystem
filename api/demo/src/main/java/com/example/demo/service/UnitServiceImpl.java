@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public void update(Long id, Unit unit) {
         logger.debug("通过Id获取单位");
-        Unit oldUnit = unitMapper.findById(id).get();
+        Unit oldUnit = unitMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
 
         logger.debug("更新");
         oldUnit.setName(unit.getName());
@@ -46,7 +47,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Unit findById(Long id) {
-        return unitMapper.findById(id).get();
+        return unitMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
     }
 
     @Override

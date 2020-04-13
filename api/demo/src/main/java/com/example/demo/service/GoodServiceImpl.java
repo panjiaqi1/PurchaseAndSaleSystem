@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public void update(Long id, Good good) {
-        Good oldGood = goodMapper.findById(id).get();
+        Good oldGood = goodMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
         oldGood.setName(good.getName());
         oldGood.setDescription(good.getDescription());
         oldGood.setUnit(good.getUnit());
@@ -52,8 +53,8 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Good findById(Long id) {
-        Good good = goodMapper.findById(id).get();
-        good.setUnit(unitMapper.findById(good.getUnit().getId()).get());
+        Good good = goodMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
+        good.setUnit(unitMapper.findById(good.getUnit().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
         return good;
     }
 
@@ -82,7 +83,7 @@ public class GoodServiceImpl implements GoodService {
 
             // 获取扩展字段
             for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
-                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).get());
+                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
             }
         }
         return goodPage;

@@ -8,25 +8,25 @@
 <div class="container">
 
     <div th:include="fragments/bodyHeader" th:remove="tag"></div>
-    <a th:href="@{/intoAdd}">新增出库</a>
+    <a th:href="@{/intoSave}" class="btn-primary btn-small">新增出库</a>
     <table class="table">
         <thead>
         <tr>
             <th>序号</th>
-            <th>产品名称</th>
+            <th>货物</th>
             <th>出库数量</th>
-            <th>库存</th>
             <th>单位</th>
+            <th>时间</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1</td>
-            <td>方便面</td>
-            <td>30</td>
-            <td>10</td>
-            <td>箱</td>
+        <tr th:each="inout, custStat : ${inOuts}">
+            <td th:text="${custStat.count}"></td>
+            <td th:text="${inout.good.name}"></td>
+            <td th:text="${inout.amount}"></td>
+            <td th:text="${inout.good.unit.name}"></td>
+            <td th:text="${#dates.format(inout.createTime, 'yyyy/MM/dd hh:mm:ss')}"></td>
             <td>
                 <a>删除</a>
                 <a>修改</a>
