@@ -12,14 +12,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ExtendedFieldMapper extends CrudMapper<ExtendedField, Long> {
-    /**
-     * 通过Id查询
-     *
-     * @param id 扩展字段Id
-     * @return ExtendedField
-     */
-    ExtendedField findById(@Param("id") Long id);
-
 
     /**
      * 当前数据总条数

@@ -35,7 +35,7 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public void update(Long id, Unit unit) {
         logger.debug("通过Id获取单位");
-        Unit oldUnit = unitMapper.findById(id);
+        Unit oldUnit = unitMapper.findById(id).get();
 
         logger.debug("更新");
         oldUnit.setName(unit.getName());
@@ -46,7 +46,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Unit findById(Long id) {
-        return unitMapper.findById(id);
+        return unitMapper.findById(id).get();
     }
 
     @Override

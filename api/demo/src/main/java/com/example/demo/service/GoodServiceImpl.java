@@ -38,12 +38,12 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public List<Good> findAll() {
-        return goodMapper.findAll(null, null);
+        return goodMapper.findAll();
     }
 
     @Override
     public void update(Long id, Good good) {
-        Good oldGood = goodMapper.findById(id);
+        Good oldGood = goodMapper.findById(id).get();
         oldGood.setName(good.getName());
         oldGood.setDescription(good.getDescription());
         oldGood.setUnit(good.getUnit());
@@ -53,8 +53,8 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Good findById(Long id) {
-        Good good = goodMapper.findById(id);
-        good.setUnit(unitMapper.findById(good.getUnit().getId()));
+        Good good = goodMapper.findById(id).get();
+        good.setUnit(unitMapper.findById(good.getUnit().getId()).get());
         return good;
     }
 
@@ -70,7 +70,7 @@ public class GoodServiceImpl implements GoodService {
             List<GoodExtendedField> goodExtendedFieldList = goodExtendedFieldMapper.findAllByGoodId(good.getId());
             good.setGoodExtendedFieldList(goodExtendedFieldList);
             for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
-                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()));
+                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).get());
             }
         }
         return goodPage;

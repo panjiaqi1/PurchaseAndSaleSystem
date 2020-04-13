@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface InOutService {
     /**
-     * 进货
+     * 保存
      */
     void save(InOut inOut);
 

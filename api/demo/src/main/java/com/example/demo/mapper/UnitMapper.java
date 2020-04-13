@@ -14,23 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnitMapper extends CrudMapper<Unit, Long> {
 
-    /**
-     * 通过Id查询
-     *
-     * @param id 单位Id
-     * @return Unit
-     */
-    Unit findById(Long id);
-
-
-    /**
-     * 当前数据总条数
-     *
-     * @return 总数
-     */
-    @Override
-    @Select("select count(*) from unit")
-    long count();
 
     /**
      * 删除

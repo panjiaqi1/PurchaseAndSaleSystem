@@ -19,14 +19,6 @@ public interface GoodExtendedFieldMapper extends CrudMapper<GoodExtendedField, L
     void save(@Param("value") String value, @Param("goodId") Long goodId, @Param("extendedFieldId") Long extendedFieldId);
 
     /**
-     * 通过Id查询
-     *
-     * @param id 扩展字段Id
-     * @return ExtendedField
-     */
-    GoodExtendedField findById(@Param("id") Long id);
-
-    /**
      * 通过GoodId查询
      */
     List<GoodExtendedField> findAllByGoodId(@Param("GoodId") Long GoodId);

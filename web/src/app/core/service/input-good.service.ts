@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Good } from '../../common/good';
 import { Observable } from 'rxjs';
 import { InOut } from '../../common/in-out';
-import { Unit } from '../../common/unit';
+import { Page } from '../../base/page';
+import { Good } from '../../common/good';
 
 @Injectable({
   providedIn: 'root'
@@ -23,21 +23,18 @@ export class InputGoodService {
   }
 
   /**
-   * 获取所有进货信息
+   * 分页
    */
-  public getAll(): Observable<Array<InOut>> {
-    return this.httpClient.get<Array<InOut>>(this.baseUrl);
-  }
+  public page(page: number, size: number, goodId: number, beInput: boolean): Observable<Page<InOut>> {
+    const params: { [key: string]: any } = {
+      page: String(page),
+      size: String(size)
+    };
+    params.beInput = beInput;
 
-  /**
-   * 通过货物获取所有进货记录
-   */
-  public findAllByGoodId(goodId: number): Observable<Array<InOut>> {
-    const params: { [key: string]: any } = {};
     if (goodId) {
       params.goodId = goodId;
     }
-
-    return this.httpClient.get<Array<InOut>>(`${this.baseUrl}/query`, {params});
+    return this.httpClient.get<Page<InOut>>(`${this.baseUrl}/page`, {params});
   }
 }

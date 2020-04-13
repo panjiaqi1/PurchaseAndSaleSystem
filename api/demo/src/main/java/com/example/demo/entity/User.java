@@ -27,6 +27,11 @@ public class User {
     private String password;
 
     /**
+     * 姓名
+     */
+    private String name;
+
+    /**
      * 角色
      */
     private int role;
@@ -51,6 +56,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {

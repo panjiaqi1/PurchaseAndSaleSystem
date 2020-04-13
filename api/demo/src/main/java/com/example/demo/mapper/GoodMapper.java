@@ -21,14 +21,6 @@ import java.util.List;
 public interface GoodMapper extends CrudMapper<Good, Long> {
 
     /**
-     * 通过Id查询
-     *
-     * @param id 货物Id
-     * @return Good
-     */
-    Good findById(@Param("id") Long id);
-
-    /**
      * 分页数据
      *
      * @return List<Good>
@@ -80,6 +72,11 @@ public interface GoodMapper extends CrudMapper<Good, Long> {
      */
     @Override
     @Update("UPDATE good SET name = #{good.name}, description = #{good.description}, " +
-            "unit_id = #{good.unit.id} WHERE id = #{good.id}")
+            "stock = #{good.stock}, unit_id = #{good.unit.id} WHERE id = #{good.id}")
     boolean update(@Param("good") Good good);
+
+    @Override
+    @Insert("INSERT INTO good (name, description, stock, unit_id, deleted) VALUES (#{good.name}, #{good.description}, #{good.stock}, #{good.unit.id}, false)")
+    @SelectKey(statement = "select last_insert_id()", keyProperty = "good.id", before = false, resultType = long.class)
+    void insert(@Param("good") Good good);
 }

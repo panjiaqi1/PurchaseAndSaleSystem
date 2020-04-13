@@ -44,7 +44,6 @@ public class InOut implements BaseEntity<Long>{
     /**
      * 是否被删除,用于软删除
      */
-    @Column(nullable = false)
     private Boolean deleted = false;
 
     /**

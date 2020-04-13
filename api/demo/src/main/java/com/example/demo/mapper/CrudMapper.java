@@ -6,7 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 基类
@@ -21,7 +24,11 @@ public interface CrudMapper<T extends BaseEntity, D> {
      *
      * @return 总数
      */
-    long count();
+    long count(@Param("queryParams") Iterable<QueryParam> queryParams);
+
+    default long count() {
+        return this.count(null);
+    }
 
     /**
      * 删除
@@ -36,7 +43,7 @@ public interface CrudMapper<T extends BaseEntity, D> {
      * @Return List
      */
     default List<T> findAll() {
-        return this.findAll(null);
+        return this.findAll(null, null);
     }
 
     /**
@@ -45,7 +52,16 @@ public interface CrudMapper<T extends BaseEntity, D> {
      * @param id 关键字
      * @return 实体
      */
-    T findById(@Param("id") D id);
+    default Optional<T> findById(@Param("id") D id) {
+        List<T> lists = this.findAll(Arrays.asList(
+                new QueryParam("id", id.toString())));
+
+        if (lists.size() > 0) {
+            return Optional.of(lists.get(0));
+        } else {
+            return Optional.empty();
+        }
+    }
 
     /**
      * 插入新数据，并返回主键值
@@ -61,7 +77,28 @@ public interface CrudMapper<T extends BaseEntity, D> {
      * @param pageable 分页信息
      * @return
      */
-    List<T> findAll(@Param("pageable") Pageable pageable);
+    default List<T> findAll(@Param("pageable") Pageable pageable) {
+        return this.findAll(null, pageable);
+    }
+
+    /**
+     * 分页数据
+     *
+     * @param queryParams 查询参数
+     * @return
+     */
+    default List<T> findAll(Iterable<QueryParam> queryParams) {
+        return this.findAll(queryParams, null);
+    }
+
+    /**
+     * 分页数据
+     *
+     * @param queryParams 查询参数
+     * @param pageable    分页信息
+     * @return
+     */
+    List<T> findAll(@Param("queryParams") Iterable<QueryParam> queryParams, @Param("pageable") Pageable pageable);
 
     /**
      * 分页数据
@@ -69,13 +106,25 @@ public interface CrudMapper<T extends BaseEntity, D> {
      * @param pageable 分页参数
      * @return
      */
-    default Page<T> page(@Param("pageable") Pageable pageable) {
+    default Page<T> page(Pageable pageable) {
+        return this.page(null, pageable);
+    }
+
+    /**
+     * 分页数据
+     *
+     * @param queryParams 查询参数
+     * @param pageable    分页
+     * @return
+     */
+    default Page<T> page(Iterable<QueryParam> queryParams, @Param("pageable") Pageable pageable) {
         return new PageImpl<T>(
-                this.findAll(pageable),
+                this.findAll(queryParams, pageable),
                 pageable,
-                this.count()
+                this.count(queryParams)
         );
     }
+
 
     /**
      * 新增或更新

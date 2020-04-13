@@ -30,7 +30,7 @@ public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
 
     @Override
     public GoodExtendedField findById(Long id) {
-        return goodExtendedFieldMapper.findById(id);
+        return goodExtendedFieldMapper.findById(id).get();
     }
 
     @Override
@@ -46,8 +46,8 @@ public class GoodExtendedFieldServiceImpl implements GoodExtendedFieldService {
         Page<GoodExtendedField> goodExtendedFieldPage = goodExtendedFieldMapper.page(pageable);
         for (GoodExtendedField goodExtendedField : goodExtendedFieldPage.getContent()) {
 
-            goodExtendedField.setGood(goodMapper.findById(goodExtendedField.getGood().getId()));
-            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()));
+            goodExtendedField.setGood(goodMapper.findById(goodExtendedField.getGood().getId()).get());
+            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).get());
         }
         return goodExtendedFieldPage;
     }

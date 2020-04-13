@@ -33,7 +33,7 @@ export class AddComponent implements OnInit {
   ngOnInit() {
     this.inOutForm = this.builder.group({
       amount: ['', [Validators.required]],
-      inputOrOutput: 1,
+      beInput: true,
       good: null,
       user: new User()
     }, {updateOn: 'blur'});

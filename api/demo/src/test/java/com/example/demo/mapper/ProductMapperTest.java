@@ -33,7 +33,7 @@ class ProductMapperTest {
 
     @Test
     public void findById() {
-        Good product = this.productMapper.findById(1L);
+        Good product = this.productMapper.findById(1L).get();
 
     }
 }
