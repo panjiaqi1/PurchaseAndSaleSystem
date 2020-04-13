@@ -1,9 +1,11 @@
 package com.example.demo.mapper;
 
+import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
 
 /**
@@ -14,6 +16,11 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface InOutMapper extends CrudMapper<InOut, Long> {
+
+    @Override
+    default Optional<InOut> findById(Long id) {
+        return this.findById(id, "in_out.id");
+    }
 
     /**
      * 更新

@@ -30,6 +30,9 @@ public class OutGoodController {
         this.goodService = goodService;
     }
 
+    /**
+     * 首页
+     */
     @RequestMapping("outputGood")
     public String greetingForm(Model model) {
         List<InOut> inOuts = inOutService.findAll(InOut.OUTPUT);

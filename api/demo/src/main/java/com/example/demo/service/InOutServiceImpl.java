@@ -48,7 +48,7 @@ public class InOutServiceImpl implements InOutService {
 
     @Override
     public InOut findById(Long id) {
-        return inOutMapper.findById(id).get();
+        return inOutMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
     }
 
     @Override

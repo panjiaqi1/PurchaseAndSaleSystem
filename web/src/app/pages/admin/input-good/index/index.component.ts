@@ -31,8 +31,7 @@ export class IndexComponent implements OnInit {
 
   constructor(private appComponent: AppComponent,
               private inputGoodService: InputGoodService,
-              private builder: FormBuilder,
-              private datePipe: DatePipe) {
+              private builder: FormBuilder) {
   }
 
   ngOnInit() {
