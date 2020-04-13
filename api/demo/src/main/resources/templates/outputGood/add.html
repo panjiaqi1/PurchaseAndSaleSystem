@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/headTag :: headTag"></head>
+
+<body>
+<div class="container">
+    <div th:include="fragments/bodyHeader" th:remove="tag"></div>
+
+    <form th:action="@{/save}" method="post">
+        <p>货物:
+            <select name="good" class="form-control">
+                <option value="null">请选择货物...</option>
+                <option th:each="good : ${goods}" th:text="${good.name}"
+                        th:value="${good.id}"></option>
+            </select>
+        </p>
+        <p>出货数量: <input type="text" id="amount" name="amount"/></p>
+        <p><input type="submit" value="Submit"/></p>
+    </form>
+
+    <div th:include="fragments/footer"></div>
+</div>
+</body>
+</html>

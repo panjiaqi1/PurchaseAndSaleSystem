@@ -70,7 +70,6 @@
     <th scope="col">单位</th>
     <th scope="col">时间</th>
     <th scope="col">操作人</th>
-    <th scope="col">操作</th>
   </tr>
   </thead>
   <tbody>
@@ -81,12 +80,6 @@
     <td>{{inputGood.good.unit.name}}</td>
     <td>{{inputGood.createTime |  date:"yyyy/MM/dd hh:mm:ss"}}</td>
     <td>{{inputGood?.user?.username}}</td>
-    <td>
-      <button class="btn btn-primary btn-sm mr-2" routerLink="edit/{{inputGood.id}}">
-        <i class="fas fa-edit"></i>
-        编辑
-      </button>
-    </td>
   </tr>
   </tbody>
 </table>
