@@ -8,7 +8,7 @@
     </resultMap>
 
     <sql id="columns">
-        unit.id,unit.name
+        unit.id, unit.`name`
     </sql>
     <sql id="joinTable">
         unit

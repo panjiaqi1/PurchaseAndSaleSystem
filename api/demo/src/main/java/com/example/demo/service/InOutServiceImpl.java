@@ -61,16 +61,20 @@ public class InOutServiceImpl implements InOutService {
 
     @Override
     public Page<InOut> page(Pageable pageable, Long goodId, boolean beInput) {
-        QueryParam goodIdQueryParam = new QueryParam("good_id", goodId.toString());
-        QueryParam beInputQueryParam = new QueryParam("be_input", beInput ? "true" : "false", QueryType.TRUE_OR_FALSE);
-        List<QueryParam> queryParams = new ArrayList<>(Arrays.asList(
-                goodIdQueryParam,
-                beInputQueryParam
-        ));
+        List<QueryParam> queryParams = new ArrayList<>();
+
+        if (goodId != null) {
+            QueryParam goodIdQueryParam = new QueryParam("good_id", goodId.toString());
+            queryParams.add(goodIdQueryParam);
+        }
+
+        QueryParam beInputQueryParam = new QueryParam("be_input", beInput ? "1" : "0", QueryType.TRUE_OR_FALSE);
+        queryParams.add(beInputQueryParam);
+
         Page<InOut> inOutPage = inOutMapper.page(queryParams, pageable);
         for (InOut inout : inOutPage.getContent()) {
             inout.setGood(goodMapper.findById(inout.getGood().getId()).get());
         }
-        return null;
+        return inOutPage;
     }
 }

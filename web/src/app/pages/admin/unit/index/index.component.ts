@@ -39,6 +39,7 @@ export class IndexComponent implements OnInit {
     this.unitService.page(this.page, this.size)
       .subscribe((data: Page<Unit>) => {
         this.units = data;
+        console.log(this.units);
       }, () => {
         console.log('error');
       });
