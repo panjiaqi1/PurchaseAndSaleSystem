@@ -33,7 +33,7 @@ public interface GoodMapper extends CrudMapper<Good, Long> {
      * 插入新数据
      */
     @Override
-    @Insert("INSERT INTO good (name, description, stock, unit_id, deleted) VALUES (#{good.name}, #{good.description}, #{good.stock}, #{good.unit.id}, false)")
+    @Insert("INSERT INTO good (name, description, stock, unit_id) VALUES (#{good.name}, #{good.description}, #{good.stock}, #{good.unit.id})")
     @SelectKey(statement = "select last_insert_id()", keyProperty = "good.id", before = false, resultType = long.class)
     void insert(@Param("good") Good good);
 
