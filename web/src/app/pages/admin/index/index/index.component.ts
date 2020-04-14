@@ -34,7 +34,9 @@ export class IndexComponent implements OnInit {
     goods.forEach((good) => {
       this.name.push(good.name);
       this.number.push(good.stock);
-
+      this.number.sort((a, b) => {
+        return -a - b;
+      });
       this.chartOption = {
         title: {
           text: '各货物库统计表'
