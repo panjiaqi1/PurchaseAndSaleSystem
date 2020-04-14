@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { Good } from '../../../../common/good';
 import { Unit } from '../../../../common/unit';
 import { GoodService } from '../../../../core/service/good.service';
+import { GoodExtendedField } from '../../../../common/good-extended-field';
+import { ExtendedField } from '../../../../common/extended-field';
+import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-add',
@@ -13,6 +16,10 @@ import { GoodService } from '../../../../core/service/good.service';
   styleUrls: ['./add.component.less']
 })
 export class AddComponent implements OnInit {
+
+  goodExtendFields = new Array<GoodExtendedField>();
+
+  goodExtendField: GoodExtendedField;
 
   goodForm: FormGroup;
 
@@ -37,21 +44,26 @@ export class AddComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       unit: null,
+      goodExtendedFieldList: null
     }, {updateOn: 'blur'});
   }
 
   public saveGood(good: Good) {
     this.goodService.save(good).subscribe(() => {
-        this.appComponent.success(() => {
-          this.router.navigateByUrl('/good');
-        }, '新增成功');
-      }, (res: HttpErrorResponse) => {
-        this.appComponent.error(() => {
-        }, `新增失败:${res.error.message}`);
-      });
+      this.appComponent.success(() => {
+        this.router.navigateByUrl('/good');
+      }, '新增成功');
+    }, (res: HttpErrorResponse) => {
+      this.appComponent.error(() => {
+      }, `新增失败:${res.error.message}`);
+    });
   }
 
   submit() {
+    this.goodForm.patchValue({
+      goodExtendedFieldList: this.goodExtendFields
+    });
+    console.log(this.goodForm.value);
     this.saveGood(this.goodForm.value);
   }
 
@@ -59,5 +71,14 @@ export class AddComponent implements OnInit {
     this.goodForm.patchValue({
       unit: unitDate
     });
+  }
+
+  insert() {
+    this.goodExtendField = new GoodExtendedField();
+    this.goodExtendFields.push(this.goodExtendField);
+  }
+
+  bindExtendedField(extendedField: ExtendedField) {
+    this.goodExtendField.extendedField = extendedField;
   }
 }

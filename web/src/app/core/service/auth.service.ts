@@ -20,7 +20,7 @@ export class AuthService {
   constructor(private commonService: CommonService,
               private httpClient: HttpClient) {
     this.currentLoginUser$ = this.currentLoginUserSubject.asObservable();
-    this.getCurrentLoginUser();
+    // this.getCurrentLoginUser();
   }
 
   private getCurrentLoginUser() {

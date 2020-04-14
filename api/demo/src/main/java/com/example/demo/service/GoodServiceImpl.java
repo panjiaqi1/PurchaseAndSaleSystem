@@ -34,6 +34,13 @@ public class GoodServiceImpl implements GoodService {
         Assert.notNull(good.getUnit(), "null");
         Assert.notNull(good.getUnit().getId(), "null");
         goodMapper.save(good);
+
+        List<GoodExtendedField> goodExtendedFields = good.getGoodExtendedFieldList();
+        for (GoodExtendedField goodExtendedField : goodExtendedFields) {
+            goodExtendedField.setGood(good);
+            goodExtendedFieldMapper.save(goodExtendedField);
+        }
+
     }
 
     @Override
@@ -49,12 +56,20 @@ public class GoodServiceImpl implements GoodService {
         oldGood.setUnit(good.getUnit());
         goodMapper.save(oldGood);
 
+        List<GoodExtendedField> goodExtendedFields = good.getGoodExtendedFieldList();
+        for (GoodExtendedField goodExtendedField : goodExtendedFields) {
+            if (goodExtendedField.getId() == null) {
+                goodExtendedField.setGood(oldGood);
+            }
+            goodExtendedFieldMapper.save(goodExtendedField);
+        }
     }
 
     @Override
     public Good findById(Long id) {
         Good good = goodMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
         good.setUnit(unitMapper.findById(good.getUnit().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
+        this.goodExtendedField(good, good.getId().toString());
         return good;
     }
 
@@ -75,17 +90,25 @@ public class GoodServiceImpl implements GoodService {
 
         Page<Good> goodPage = goodMapper.page(queryParams, pageable);
         for (Good good : goodPage.getContent()) {
-            // 构造查询参数并通过goodId查询
-            List<GoodExtendedField> goodExtendedFieldList = goodExtendedFieldMapper.findAll(new ArrayList<>(
-                    Arrays.asList(new QueryParam("good_id", good.getId().toString()))));
-            // 获取扩展字段记录
-            good.setGoodExtendedFieldList(goodExtendedFieldList);
-
-            // 获取扩展字段
-            for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
-                goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
-            }
+            this.goodExtendedField(good, good.getId().toString());
         }
         return goodPage;
+    }
+
+    /**
+     * 构造good中 goodExtendedFieldList
+     */
+    private void goodExtendedField(Good good, String id) {
+        // 构造查询参数并通过goodId查询
+        List<GoodExtendedField> goodExtendedFieldList = goodExtendedFieldMapper.findAll(new ArrayList<>(
+                Arrays.asList(new QueryParam("good_id", id))));
+
+        // 获取扩展字段记录
+        good.setGoodExtendedFieldList(goodExtendedFieldList);
+
+        // 获取扩展字段
+        for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
+            goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
+        }
     }
 }

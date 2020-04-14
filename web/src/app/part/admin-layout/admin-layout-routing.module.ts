@@ -9,6 +9,11 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('../../pages/admin/index/index.module').then(m => m.IndexModule)
       },
@@ -56,15 +61,15 @@ const routes: Routes = [
       },
     ]
   },
-  {
-    path: '',
-    redirectTo: 'auth',
-    pathMatch: 'full'
-  },
-  {
-    path: 'auth',
-    loadChildren: () => import('../../pages/admin/auth/auth.module').then(m => m.AuthModule)
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'auth',
+  //   pathMatch: 'full'
+  // },
+  // {
+  //   path: 'auth',
+  //   loadChildren: () => import('../../pages/admin/auth/auth.module').then(m => m.AuthModule)
+  // },
 ];
 
 @NgModule({

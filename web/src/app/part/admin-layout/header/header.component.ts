@@ -29,19 +29,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   init() {
-    this.commonService.appOnReady(() => {
-      this.currentUser = this.authService.getCurrentUser();
-    });
+   // this.commonService.appOnReady(() => {
+      // this.currentUser = this.authService.getCurrentUser();
+   // });
   }
 
   logout() {
-    this.authService.logout()
-      .subscribe(() => {
-      }, () => {
-      }, () => {
-        this.router.navigateByUrl('/admin/auth');
-        console.log(1);
-      });
+    console.log('logout');
+    // this.authService.logout()
+    //   .subscribe(() => {
+    //   }, () => {
+    //   }, () => {
+    //     this.router.navigateByUrl('/admin/auth');
+    //     console.log(1);
+    //   });
   }
 
   ngOnDestroy(): void {

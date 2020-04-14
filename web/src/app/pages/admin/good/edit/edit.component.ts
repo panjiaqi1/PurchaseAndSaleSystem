@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Good } from '../../../../common/good';
 import { GoodService } from '../../../../core/service/good.service';
 import { Unit } from '../../../../common/unit';
+import { ExtendedField } from '../../../../common/extended-field';
+import { GoodExtendedField } from '../../../../common/good-extended-field';
 
 @Component({
   selector: 'app-edit',
@@ -13,7 +15,9 @@ import { Unit } from '../../../../common/unit';
   styleUrls: ['./edit.component.less']
 })
 export class EditComponent implements OnInit {
+  goodExtendFields = new Array<GoodExtendedField>();
 
+  goodExtendField: GoodExtendedField;
 
   goodForm: FormGroup;
 
@@ -37,6 +41,7 @@ export class EditComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       unit: null,
+      goodExtendedFieldList: null
     });
   }
 
@@ -44,11 +49,13 @@ export class EditComponent implements OnInit {
     this.goodForm.setValue({
       name: data.name,
       description: data.description,
-      unit: data.unit
+      unit: data.unit,
+      goodExtendedFieldList: null
     });
   }
 
   ngOnInit() {
+    this.goodExtendField = new GoodExtendedField();
     this.getEditExtendedField();
   }
 
@@ -57,6 +64,9 @@ export class EditComponent implements OnInit {
       this.id = +params.id;
       this.goodService.findById(params.id)
         .subscribe((good: Good) => {
+          good.goodExtendedFieldList.forEach((goodExtendedField: GoodExtendedField) => {
+            this.goodExtendFields.push(goodExtendedField);
+          });
           this.initForm(good);
         });
     });
@@ -85,6 +95,10 @@ export class EditComponent implements OnInit {
   }
 
   submit() {
+    this.goodForm.patchValue({
+      goodExtendedFieldList: this.goodExtendFields
+    });
+
     this.update(this.goodForm.value);
   }
 
@@ -92,5 +106,17 @@ export class EditComponent implements OnInit {
     this.goodForm.patchValue({
       unit: unitDate
     });
+  }
+
+  insert() {
+    this.goodExtendField = new GoodExtendedField();
+    this.goodExtendFields.push(this.goodExtendField);
+  }
+
+  bindExtendedField(extendedField: ExtendedField) {
+    this.goodExtendFields.forEach((goodExtendedField: GoodExtendedField) => {
+      this.goodExtendField = goodExtendedField;
+    });
+    this.goodExtendField.extendedField = extendedField;
   }
 }

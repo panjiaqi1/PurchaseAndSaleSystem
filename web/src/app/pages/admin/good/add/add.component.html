@@ -1,4 +1,4 @@
-<form [formGroup]="goodForm" (ngSubmit)="submit()" style="margin-top: 60px">
+<form [formGroup]="goodForm" style="margin-top: 60px">
   <div class="row">
     <div class="col-md-6 offset-md-1">
       <div class="row">
@@ -23,7 +23,8 @@
           <label for="description" class="form-text">描述<code>*</code></label>
         </div>
         <div class="col-md-8">
-          <textarea id="description" class="form-control" rows="4" formControlName="description" placeholder="请输入描述"></textarea>
+          <textarea id="description" class="form-control" rows="4" formControlName="description"
+                    placeholder="请输入描述"></textarea>
         </div>
       </div>
       <div class="row mt-2" *ngIf="description.invalid && (description.dirty || description.touched)">
@@ -43,14 +44,41 @@
           <app-unit-select (unitSelect)="bindUnit($event)"></app-unit-select>
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-md-8 offset-md-4">
-          <button class="btn btn-dark btn-sm" [disabled]="goodForm.invalid" type="submit">
-            <i class="far fa-save"></i>
-            &nbsp;保存
-          </button>
-        </div>
-      </div>
+      <br>
     </div>
   </div>
 </form>
+<div class="row">
+  <div class="col-md-6 offset-md-1">
+    <div class="row">
+      <div class="col-md-4 text-right">
+        <label class="form-text">扩展信息<code>*</code></label>
+      </div>
+      <div class="col-md-8">
+        <div class="row" *ngFor=" let goodExtendField of goodExtendFields; index as i;">
+          <div class="col-md-6 ">
+            <app-extended-field-select
+              (extendedFieldSelect)="bindExtendedField($event)"></app-extended-field-select>
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="请输入扩展字段值" [(ngModel)]="goodExtendField.value"/>
+          </div>
+        </div>
+        <button type="button" class="form-text btn btn-sm btn-success" (click)="insert()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="goodForm" (ngSubmit)="submit()">
+  <div class="row mt-5">
+    <div class="col-md-8 offset-md-4">
+      <button class="btn btn-dark btn-sm" [disabled]="goodForm.invalid" type="submit">
+        <i class="far fa-save"></i>
+        &nbsp;保存
+      </button>
+    </div>
+  </div>
+</form>
+

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FuncModule } from '../../../func/func.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoodRoutingModule } from './good-routing.module';
 import { IndexComponent } from './index/index.component';
 import { AddComponent } from './add/add.component';
@@ -14,6 +14,7 @@ import { EditComponent } from './edit/edit.component';
     GoodRoutingModule,
     FuncModule,
     ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class GoodModule {
