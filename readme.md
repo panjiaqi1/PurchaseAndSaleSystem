@@ -4,9 +4,9 @@
 
 ## MySql
 
-使用5.7版本的MySQL,端口:3307
-datasource.username=root
-datasource.password=
+使用5.7版本的MySQL,端口:3307,datasource.username=root,datasource.password=
+
+数据表:unit, good, extended_field, good_extended_field, in_out, user
 
 ## redis
 
