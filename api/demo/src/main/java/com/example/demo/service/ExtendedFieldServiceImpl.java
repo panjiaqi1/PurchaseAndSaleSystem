@@ -25,7 +25,7 @@ public class ExtendedFieldServiceImpl implements ExtendedFieldService {
 
     @Override
     public ExtendedField findById(Long id) {
-        return extendedFieldMapper.findById(id).orElseThrow(()->new EntityNotFoundException("未找到"));
+        return extendedFieldMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
     }
 
     @Override

@@ -5,6 +5,8 @@
 ## MySql
 
 使用5.7版本的MySQL,端口:3307
+datasource.username=root
+datasource.password=
 
 ## redis
 
@@ -27,6 +29,7 @@
 ## SpringBoot + Angular 前后台分离部分
 
 Angular:
+		首先: npm install
 		启动: ng serve
 
 访问: http://localhost:8012

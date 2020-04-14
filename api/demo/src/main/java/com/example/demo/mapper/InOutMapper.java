@@ -1,6 +1,5 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;

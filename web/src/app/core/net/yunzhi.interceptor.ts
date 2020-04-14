@@ -10,7 +10,6 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { config } from '../../conf/app.config';
 import { CoreModule } from '../core.module';
 import { Router } from '@angular/router';
-import swal from 'sweetalert2';
 
 /**
  * Yunzhi拦截器，用于实现添加url，添加header，全局异常处理

@@ -2,11 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
-import com.example.demo.entity.Unit;
-import com.example.demo.mapper.GoodMapper;
-
 import java.util.List;
-
 import com.example.demo.service.GoodService;
 import com.example.demo.service.InOutService;
 import org.springframework.stereotype.Controller;
