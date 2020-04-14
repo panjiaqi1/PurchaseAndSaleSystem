@@ -3,6 +3,11 @@ package com.example.demo.service;
 import com.example.demo.entity.Good;
 import com.example.demo.entity.GoodExtendedField;
 import com.example.demo.mapper.*;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,17 +20,20 @@ import java.util.List;
 
 @Service
 public class GoodServiceImpl implements GoodService {
+    private final static Logger logger = LoggerFactory.getLogger(GoodServiceImpl.class);
 
     private final GoodMapper goodMapper;
     private final UnitMapper unitMapper;
     private final GoodExtendedFieldMapper goodExtendedFieldMapper;
     private final ExtendedFieldMapper extendedFieldMapper;
+    private final RedissonClient redissonClient;
 
-    public GoodServiceImpl(GoodMapper goodMapper, UnitMapper unitMapper, GoodExtendedFieldMapper goodExtendedFieldMapper, ExtendedFieldMapper extendedFieldMapper) {
+    public GoodServiceImpl(GoodMapper goodMapper, UnitMapper unitMapper, GoodExtendedFieldMapper goodExtendedFieldMapper, ExtendedFieldMapper extendedFieldMapper, RedissonClient redissonClient) {
         this.goodMapper = goodMapper;
         this.unitMapper = unitMapper;
         this.goodExtendedFieldMapper = goodExtendedFieldMapper;
         this.extendedFieldMapper = extendedFieldMapper;
+        this.redissonClient = redissonClient;
     }
 
     @Override
@@ -109,6 +117,34 @@ public class GoodServiceImpl implements GoodService {
         // 获取扩展字段
         for (GoodExtendedField goodExtendedField : goodExtendedFieldList) {
             goodExtendedField.setExtendedField(extendedFieldMapper.findById(goodExtendedField.getExtendedField().getId()).orElseThrow(() -> new EntityNotFoundException("未找到")));
+        }
+    }
+
+    /**
+     * 更新货物库存
+     *
+     * @param id 货物ID
+     */
+    @Override
+    @CacheEvict(value = "goodStocks", key = "#id")
+    public void updateStockById(Long id, Integer amount) {
+        RLock lock = redissonClient.getFairLock("good_" + id.toString());
+        // 上锁
+        try {
+            logger.info("尝试上锁");
+            lock.lock();
+
+            // 获取上锁后的最新数据后更新库存
+            Good good = goodMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
+            good.setStock(good.getStock() + amount);
+            if (good.getStock().compareTo(0) < 0) {
+                throw new RuntimeException("库存不足");
+            }
+            goodMapper.save(good);
+        } finally {
+            // 在finally中解锁
+            logger.info("解锁成功");
+            lock.unlock();
         }
     }
 }

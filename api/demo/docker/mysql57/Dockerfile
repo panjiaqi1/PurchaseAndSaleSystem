@@ -1,0 +1,1 @@
+FROM registry.cn-beijing.aliyuncs.com/panjiaqi/mysql:5.7

@@ -11,7 +11,7 @@ import { UserService } from '../../../../core/service/user.service';
 })
 export class IndexComponent implements OnInit {
 
-  // TODO 登录及用户管理
+  // TODO   登录及用户管理
 
   users: Array<User> = [
     {id: 1, username: '张三', password: '112', role: null},

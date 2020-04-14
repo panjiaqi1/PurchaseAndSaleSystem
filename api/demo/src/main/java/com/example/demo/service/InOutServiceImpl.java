@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Good;
 import com.example.demo.entity.InOut;
 import com.example.demo.mapper.GoodMapper;
 import com.example.demo.mapper.InOutMapper;
@@ -19,36 +18,27 @@ import java.util.List;
 public class InOutServiceImpl implements InOutService {
     private final InOutMapper inOutMapper;
     private final GoodMapper goodMapper;
+    private final GoodService goodService;
 
-    public InOutServiceImpl(InOutMapper inOutMapper, GoodMapper goodMapper) {
+    public InOutServiceImpl(InOutMapper inOutMapper, GoodMapper goodMapper, GoodService goodService) {
         this.inOutMapper = inOutMapper;
         this.goodMapper = goodMapper;
+        this.goodService = goodService;
     }
 
     @Override
     public void save(InOut inOut) {
         if (inOut.getBeInput()) {
             inOutMapper.save(inOut);
-            this.updateStock(inOut.getGood().getId(), inOut);
+            goodService.updateStockById(inOut.getGood().getId(), inOut.getAmount());
+            goodMapper.findStockById(inOut.getGood().getId());
         } else {
-            Good good = goodMapper.findById(inOut.getGood().getId()).orElseThrow(() -> new EntityNotFoundException("未找到"));
-            if (good.getStock() < inOut.getAmount()) {
-                throw new RuntimeException("库存不足");
-            }
-
             inOut.setAmount(inOut.getAmount() * (-1));
             inOutMapper.save(inOut);
-            this.updateStock(inOut.getGood().getId(), inOut);
-        }
-    }
+            goodService.updateStockById(inOut.getGood().getId(), inOut.getAmount());
+            goodMapper.findStockById(inOut.getGood().getId());
 
-    /**
-     * 更新库存
-     */
-    private void updateStock(Long id, InOut inOut) {
-        Good good = goodMapper.findById(id).orElseThrow(() -> new EntityNotFoundException("未找到"));
-        good.setStock(inOut.getAmount() + good.getStock());
-        goodMapper.save(good);
+        }
     }
 
     @Override

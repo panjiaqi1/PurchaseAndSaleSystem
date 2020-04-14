@@ -2,8 +2,16 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.Good;
 import org.apache.ibatis.annotations.*;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 /**
@@ -14,6 +22,16 @@ import java.util.Optional;
 @Mapper
 @Repository
 public interface GoodMapper extends CrudMapper<Good, Long> {
+
+    Logger logger = LoggerFactory.getLogger(GoodMapper.class);
+
+
+    @Cacheable(value = "goodStocks", key = "#id")
+    default Integer findStockById(Long id) {
+        logger.info("执行SQL,查询数据库");
+        Good good = this.findById(id).get();
+        return good.getStock();
+    }
 
     @Override
     default Optional<Good> findById(Long id) {

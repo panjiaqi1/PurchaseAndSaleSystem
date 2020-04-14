@@ -36,4 +36,11 @@ public interface GoodService {
      * 分页并查询
      */
     Page<Good> page(Pageable pageable, String name);
+
+    /**
+     * 更新货物库存
+     *
+     * @param id 货物id
+     */
+    void updateStockById(Long id, Integer amount);
 }
