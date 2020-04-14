@@ -19,8 +19,7 @@ export class IndexComponent implements OnInit {
     {id: 1, username: '王五', password: '112', role: null},
 
   ];
-
-
+  
   constructor(private userService: UserService,
               private builder: FormBuilder,
               private appComponent: AppComponent) {
