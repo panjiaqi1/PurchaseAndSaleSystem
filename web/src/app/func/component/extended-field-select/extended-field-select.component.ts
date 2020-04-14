@@ -31,8 +31,11 @@ export class ExtendedFieldSelectComponent implements OnInit {
   extendedFieldSelect: EventEmitter<ExtendedField> = new EventEmitter();
 
   ngOnInit() {
+    if (this.extendedField == null) {
+      this.innerExtendedField = null;
+    }
+
     this.getAllExtendedField();
-    this.innerExtendedField = null;
   }
 
   public getAllExtendedField() {
