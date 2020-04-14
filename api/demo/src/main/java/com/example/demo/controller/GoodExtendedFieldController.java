@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author panjiaqi
  */
-@RestController 
+@RestController
 @RequestMapping("goodExtendedField")
 public class GoodExtendedFieldController {
     private final GoodExtendedFieldService goodExtendedFieldService;
